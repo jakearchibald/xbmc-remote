@@ -1,0 +1,41 @@
+Global features:
+* Appcache
+* Add to homescreen
+* Responsive
+
+"/"
+List of servers -> "/tv/#server"
+Add server -> "/add/"
+
+"/add/"
+(copy from app)
+Test
+Add
+
+"/tv/#server"
+Error if cannot connect - modal on both
+Remote
+Video
+Music
+Enter text
+Play url
+Now playing
+
+"/tv/#server/video"
+Looks like new page on mobile, alongside on desktop
+TV Shows
+Movies
+Live/recoded TV
+Update library
+Clean library
+
+"/tv/#server/now"
+* While watching video
+  * Subtitle select/toggle
+  * Audio track select
+  * Audio offset
+  * Seek
+  * Record (if live)
+* Live TV
+  * EPG browse
+  * 
