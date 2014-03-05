@@ -27,9 +27,12 @@ HomePageProto._editServer = function(server) {
   var modal = this._pageView.createModal(serverEditView);
 
   if (server) {
-    // we're editing an existing server
+    // we're editing an existing server - populate form
   }
 
+  serverEditView.on('formSubmit', function(data) {
+    console.log(data);
+  });
 };
 
 module.exports = HomePage;
