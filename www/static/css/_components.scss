@@ -1,0 +1,21 @@
+// root components
+  .root {
+    display: none;
+  }
+
+// page
+  .page {
+    & .root {
+      display: block;
+    }
+  }
+
+// modal
+  .modal-root {
+    opacity: 0;
+    @include transition(opacity 1s);
+    
+    &.open {
+      opacity: 1;
+    }
+  }

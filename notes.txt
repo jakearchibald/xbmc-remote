@@ -3,7 +3,9 @@ Global features:
 * Add to homescreen
 * Responsive
 
+
 "/"
+Logo
 List of servers -> "/tv/#server"
 Add server -> "/add/"
 

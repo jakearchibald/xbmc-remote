@@ -1,5 +1,46 @@
 {% extends 'base.html' %}
+{% block title %}XBMC Remote - Select Server{% endblock %}
+
 {% block body %}
-  <button class="right">Right</button>
-  <button class="play">Play</button>
+  <div class="page">
+    <div class="home-root root">
+      <div>TODO: logo</div>
+      <nav>
+        <ul class="menu-list">
+          <li class="item"><button class="add-server">Add server</button></li>
+          <li class="item loading">LOADING</li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <div class="server-edit-root root template">
+    <form>
+      <div>
+        <label>
+          Nickname:
+          <input type="text" name="nickname" placeholder="eg Living Room" required>
+        </label>
+      </div>
+      <div>
+        <label>
+          Host:
+          <input type="text" name="host" required>
+        </label>
+      </div>
+      <div>
+        <label>
+          Port:
+          <input type="number" name="port" pattern="[0-9]*" value="9090" required>
+        </label>
+      </div>
+      <div><button class="submit">Save</button></div>
+    </form>
+  </div>
+  {% include "_modal.html" %}
+{% endblock %}
+
+{% block bodyEnd %}
+  <script>
+    new xbmc.HomePage();
+  </script>
 {% endblock %}
