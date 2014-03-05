@@ -110,9 +110,4 @@ XBMCSocketProto.playerOpenUrl = function(url) {
   };
 });
 
-// remote control right
-XBMCSocketProto.inputRight = function() {
-  return this._apiCall("Input.Right");
-};
-
 module.exports = XBMCSocket;

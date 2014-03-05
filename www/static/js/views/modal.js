@@ -1,5 +1,4 @@
 var EventEmitter = require('events').EventEmitter;
-var Promise = require('rsvp').Promise;
 
 function Modal() {
   var thisModal = this;
