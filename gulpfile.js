@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var sass = require('gulp-ruby-sass');
 var uglify = require('gulp-uglify');
 var clean = require('gulp-clean');
+var buffer = require('gulp-buffer');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var browserify = require('browserify');
@@ -25,15 +26,20 @@ gulp.task('sass-build', function() {
   return sassTask(false);
 });
 
-function browserifyGulp(bundler, dev) {
-  return bundler.bundle({
+function jsTask(bundler, dev) {
+  var stream = bundler.bundle({
     debug: dev
-  }).pipe(source('all.js'))
-    .pipe(gulp.dest('www/static/js/'));
+  }).pipe(source('all.js'));
+
+  if (!dev) {
+    stream = stream.pipe(buffer()).pipe(uglify());
+  }
+
+  return stream.pipe(gulp.dest('www/static/js/'));
 }
 
-gulp.task('browserify-build', function() {
-  return browserifyGulp(browserify('./www/static/js/index.js'), false);
+gulp.task('js-build', function() {
+  return jsTask(browserify('./www/static/js/index.js'), false);
 });
 
 gulp.task('watch', ['sass'], function() {
@@ -45,7 +51,7 @@ gulp.task('watch', ['sass'], function() {
   bundler.on('update', rebundle);
 
   function rebundle() {
-    return browserifyGulp(bundler, true);
+    return jsTask(bundler, true);
   }
 
   return rebundle();
@@ -60,7 +66,7 @@ gulp.task('clean', function() {
     .pipe(clean());
 });
 
-gulp.task('build', ['clean', 'sass-build', 'browserify-build'], function() {
+gulp.task('build', ['clean', 'sass-build', 'js-build'], function() {
   var server = app.listen(3000);
   var writeStream = gulp.dest('build/');
 
@@ -68,7 +74,9 @@ gulp.task('build', ['clean', 'sass-build', 'browserify-build'], function() {
 
   return urlSrc('http://localhost:3000/', [
     '',
-    'tv/'
+    'tv/',
+    'static/css/all.css',
+    'static/js/all.js'
   ]).pipe(writeStream);
 });
 
