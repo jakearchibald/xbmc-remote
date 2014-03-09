@@ -21,15 +21,15 @@ function HomePage() {
 
   this._homeView.hideSpinner();
 
-  this._homeView.on('serverAddClicked', function() {
+  this._homeView.on('serverAddClick', function() {
     thisHomePage._editServer();
   });
 
-  this._homeView.on('serverEditClicked', function(id) {
+  this._homeView.on('serverEditClick', function(id) {
     thisHomePage._editServer(id);
   });
 
-  this._homeView.on('serverDeleteClicked', function(id) {
+  this._homeView.on('serverDeleteClick', function(id) {
     thisHomePage._serverStorage.delete(id);
     thisHomePage._homeView.updateServers(thisHomePage._serverStorage.get());
   });
@@ -64,13 +64,6 @@ HomePageProto._editServer = function(id) {
       window.xbmc = xbmc;
       return xbmc.ready();
     }).then(function() {
-      serverEditView.setStatus('Checking version…');
-      return xbmc.jsonrpcVersion();
-    }).then(function(response) {
-      if (response.version.major < 6) {
-        throw Error("Only XBMC 12 (Frodo) & onwards supported");
-      }
-      
       if (data.oldNickname) {
         thisHomePage._serverStorage.delete(data.oldNickname);
       }

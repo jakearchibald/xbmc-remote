@@ -2,14 +2,28 @@ var Promise = require('rsvp').Promise;
 
 function XBMCSocket(host, port) {
   var xbmcSocket = this;
+  var timeout = 3000;
 
   xbmcSocket._pending = {};
   xbmcSocket._socket = new WebSocket('ws://' + host + ':' + port + '/jsonrpc');
-  xbmcSocket._ready = new Promise(function(resolve, reject) {
-    xbmcSocket._socket.onopen = resolve;
-    xbmcSocket._socket.onerror = function() {
-      reject(Error("Connection failure"));
-    };
+  xbmcSocket._ready = Promise.race([
+    new Promise(function(resolve, reject) {
+      setTimeout(function() {
+        reject(Error("Connection failure (timeout)"));
+      }, timeout);
+    }),
+    new Promise(function(resolve, reject) {
+      xbmcSocket._socket.onopen = resolve;
+      xbmcSocket._socket.onerror = function() {
+        reject(Error("Connection failure"));
+      };
+    })
+  ]).then(function() {
+    return xbmcSocket.jsonrpcVersion();
+  }).then(function(response) {
+    if (response.version.major < 6) {
+      throw Error("Only XBMC 12 (Frodo) & onwards supported");
+    }
   });
 
   xbmcSocket._socket.onmessage = this._socketListener.bind(this);
@@ -39,7 +53,7 @@ XBMCSocketProto._apiCall = function(method, params) {
       id: callId
     };
 
-    if (params) call.params = params;
+    if (params) { call.params = params; }
     xbmcSocket._pending[callId] = [resolve, reject];
     xbmcSocket._socket.send(JSON.stringify(call));
   });
@@ -96,6 +110,11 @@ XBMCSocketProto.playerOpenUrl = function(url) {
   'Input.Down',
   'Input.Left',
   'Input.Right',
+  "Input.Back",
+  "Input.ContextMenu",
+  "Input.Select",
+  "Input.Info",
+  "Input.ShowOSD",
   'JSONRPC.Version'
 ].forEach(function(method) {
   // change "Input.Left" to "inputLeft"

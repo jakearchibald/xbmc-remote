@@ -1,0 +1,45 @@
+{% extends '../base.html' %}
+{% block title %}XBMC Remote - Connecting…{% endblock %}
+
+{% block body %}
+  <div class="page">
+    <div class="tv-root root">
+      <h1>Remote</h1>
+      <ul class="remote-root root">
+        <li><button data-method="inputUp">Up</button></li>
+        <li><button data-method="inputDown">Down</button></li>
+        <li><button data-method="inputLeft">Left</button></li>
+        <li><button data-method="inputRight">Right</button></li>
+        <li><button data-method="inputBack">Back</button></li>
+        <li><button data-method="inputContextMenu">Context Menu</button></li>
+        <li><button data-method="inputSelect">Select</button></li>
+        <li><button data-method="inputInfo">Info</button></li>
+        <li><button data-method="inputShowOSD">ShowOSD</button></li>
+      </ul>
+      <div class="now-playing-root root">Todo: NOW PLAYING</div>
+      <ul class="main-menu-root root">
+        <li><button>TODO: Video</button></li>
+        <li><button>TODO: Music</button></li>
+        <li><button>TODO: Pictures</button></li>
+        <li><button data-action="playUrl">Play URL</button></li>
+        <li><button>TODO: Power</button></li>
+      </ul>
+    </div>
+  </div>
+  {% include "../_modal.html" %}
+  <div class="text-input-root root template">
+    <form>
+      <label for="text-input">
+        <span class="label-text"></span>
+        <input type="text" id="text-input" name="text" required autofocus>
+      </label>
+      <div class="status"></div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block bodyEnd %}
+  <script>
+    new xbmc.TVPage();
+  </script>
+{% endblock %}

@@ -10,7 +10,7 @@ function Home() {
   this._menuList = this.el.querySelector('.menu-list');
 
   this.el.querySelector('.add-server').addEventListener('click', function(event) {
-    thisHome.emit('serverAddClicked');
+    thisHome.emit('serverAddClick');
     event.preventDefault();
   });
 }
@@ -42,7 +42,7 @@ HomeProto.updateServers = function(servers) {
     button = document.createElement('button');
     button.textContent = "Edit";
     button.dataset.id = nickname;
-    button.addEventListener('click', this._onServerEditClicked.bind(this));
+    button.addEventListener('click', this._onServerEditClick.bind(this));
     li.appendChild(button);
 
     // delete button
@@ -50,7 +50,7 @@ HomeProto.updateServers = function(servers) {
     button = document.createElement('button');
     button.textContent = "Delete";
     button.dataset.id = nickname;
-    button.addEventListener('click', this._onServerDeleteClicked.bind(this));
+    button.addEventListener('click', this._onServerDeleteClick.bind(this));
     li.appendChild(button);
 
     this._menuList.appendChild(li);
@@ -65,14 +65,14 @@ HomeProto.clearServers = function() {
   });
 };
 
-HomeProto._onServerEditClicked = function(event) {
+HomeProto._onServerEditClick = function(event) {
   var id = event.currentTarget.dataset.id;
-  this.emit('serverEditClicked', id);
+  this.emit('serverEditClick', id);
 };
 
-HomeProto._onServerDeleteClicked = function(event) {
+HomeProto._onServerDeleteClick = function(event) {
   var id = event.currentTarget.dataset.id;
-  this.emit('serverDeleteClicked', id);
+  this.emit('serverDeleteClick', id);
 };
 
 module.exports = Home;

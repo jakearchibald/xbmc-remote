@@ -13,4 +13,8 @@ app.get('/', function(req, res) {
   res.render('../www/index.html');
 });
 
+app.get('/tv/', function(req, res) {
+  res.render('../www/tv/index.html');
+});
+
 module.exports = app;

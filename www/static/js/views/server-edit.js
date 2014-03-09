@@ -16,16 +16,7 @@ function ServerEdit() {
   this._formEl = this.el.querySelector('.server-form');
   this._statusEl = this.el.querySelector('.status');
 
-  this._formEl.addEventListener('submit', function(event) {
-    var data = {};
-
-    serverEditFields.forEach(function(field) {
-      data[field] = event.currentTarget[field].value;
-    });
-
-    thisServerEdit.emit('formSubmit', data);
-    event.preventDefault();
-  });
+  this._formEl.addEventListener('submit', this._onFormSubmit.bind(this));
 }
 
 var ServerEditProto = ServerEdit.prototype = Object.create(EventEmitter.prototype);
@@ -40,6 +31,17 @@ ServerEditProto.populateForm = function(formVals) {
   serverEditFields.forEach(function(field) {
     thisServerEdit._formEl[field].value = formVals[field];
   });
+};
+
+ServerEditProto._onFormSubmit = function(event) {
+  var data = {};
+
+  serverEditFields.forEach(function(field) {
+    data[field] = event.currentTarget[field].value;
+  });
+
+  this.emit('formSubmit', data);
+  event.preventDefault();
 };
 
 module.exports = ServerEdit;
