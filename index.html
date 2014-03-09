@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>XBMC Remote - Select Server</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0">
+    <link rel="stylesheet" href="/static/css/all.css">
+    
+  </head>
+  <body>
+    
+  <div class="page">
+    <div class="home-root root">
+      <div>TODO: logo</div>
+      <p>
+        TODO: Don't use a modal here, just include "add server" to
+        the bottom of this page. Also, have a "demo" link.
+      </p>
+      <nav>
+        <ul class="menu-list">
+          <li class="item"><button class="add-server">Add server</button></li>
+        </ul>
+        <div class="spinner-root root template">
+  LOADING
+</div>
+      </nav>
+    </div>
+  </div>
+  <div class="server-edit-root root template">
+    <form class="server-form">
+      <input type="hidden" name="oldNickname" value="">
+      <div>
+        <label>
+          Nickname:
+          <input type="text" name="nickname" placeholder="eg Living Room" required>
+        </label>
+      </div>
+      <div>
+        <label>
+          Host:
+          <input type="text" name="host" required>
+        </label>
+      </div>
+      <div>
+        <label>
+          Port:
+          <input type="number" name="port" pattern="[0-9]*" value="9090" required>
+        </label>
+      </div>
+      <div><button class="submit">Save</button></div>
+      <div class="status"></div>
+    </form>
+  </div>
+  <div class="modal-root root template">
+  <button class="close">Close</button>
+  <div class="modal-body"></div>
+</div>
+
+    <script src="/static/js/all.js"></script>
+    
+  <script>
+    new xbmc.HomePage();
+  </script>
+
+  </body>
+</html>
