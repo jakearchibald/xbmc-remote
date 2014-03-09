@@ -9,8 +9,13 @@ var ServerStorageProto = ServerStorage.prototype = Object.create(SimpleJSONStora
 ServerStorageProto.set = function(name, host, port) {
   this._obj[name] = {
     host: host,
-    post: Number(port)
+    port: Number(port)
   };
+  this._save();
+};
+
+ServerStorageProto.delete = function(name) {
+  delete this._obj[name];
   this._save();
 };
 

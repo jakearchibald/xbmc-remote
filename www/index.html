@@ -5,11 +5,15 @@
   <div class="page">
     <div class="home-root root">
       <div>TODO: logo</div>
+      <p>
+        TODO: Don't use a modal here, just include "add server" to
+        the bottom of this page. Also, have a "demo" link.
+      </p>
       <nav>
         <ul class="menu-list">
           <li class="item"><button class="add-server">Add server</button></li>
-          <li class="item loading">LOADING</li>
         </ul>
+        {% include "_spinner.html" with {instance:true} %}
       </nav>
     </div>
   </div>
@@ -35,6 +39,7 @@
         </label>
       </div>
       <div><button class="submit">Save</button></div>
+      <div class="status"></div>
     </form>
   </div>
   {% include "_modal.html" %}

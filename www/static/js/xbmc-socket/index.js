@@ -1,13 +1,15 @@
 var Promise = require('rsvp').Promise;
 
-function XBMCSocket(url) {
+function XBMCSocket(host, port) {
   var xbmcSocket = this;
 
   xbmcSocket._pending = {};
-  xbmcSocket._socket = new WebSocket('ws://127.0.0.1:9090/jsonrpc');
+  xbmcSocket._socket = new WebSocket('ws://' + host + ':' + port + '/jsonrpc');
   xbmcSocket._ready = new Promise(function(resolve, reject) {
     xbmcSocket._socket.onopen = resolve;
-    xbmcSocket._socket.onerror = reject;
+    xbmcSocket._socket.onerror = function() {
+      reject(Error("Connection failure"));
+    };
   });
 
   xbmcSocket._socket.onmessage = this._socketListener.bind(this);
@@ -93,7 +95,8 @@ XBMCSocketProto.playerOpenUrl = function(url) {
   'Input.Up',
   'Input.Down',
   'Input.Left',
-  'Input.Right'
+  'Input.Right',
+  'JSONRPC.Version'
 ].forEach(function(method) {
   // change "Input.Left" to "inputLeft"
   var jsMethodName = method.replace(/(?:^|\.)[A-Z]+/g, function(str, pos) {
