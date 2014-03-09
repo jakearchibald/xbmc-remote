@@ -15,7 +15,7 @@ function TVPage() {
 
   Page.call(this);
 
-  if (!serverId) { window.location.href = "/"; }
+  if (!serverId) { window.location.href = "/xbmc-remote/"; }
 
   this._remoteView = new RemoteView();
   this._mainMenuView = new MainMenuView();

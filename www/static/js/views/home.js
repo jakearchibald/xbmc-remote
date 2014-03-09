@@ -33,7 +33,7 @@ HomeProto.updateServers = function(servers) {
     li = document.createElement('li');
     li.className = 'item';
     a = document.createElement('a');
-    a.href = "/tv/#" + nickname;
+    a.href = "/xbmc-remote/tv/#" + nickname;
     a.textContent = nickname;
     li.appendChild(a);
 

@@ -72,7 +72,7 @@ gulp.task('build', ['clean', 'sass-build', 'js-build'], function() {
 
   writeStream.on('end', server.close.bind(server));
 
-  return urlSrc('http://localhost:3000/', [
+  return urlSrc('http://localhost:3000/xbmc-remote/', [
     '',
     'tv/',
     'static/css/all.css',

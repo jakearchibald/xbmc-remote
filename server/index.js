@@ -7,13 +7,13 @@ app.engine('html', swig.renderFile);
 app.set('view cache', false);
 swig.setDefaults({ cache: false });
 
-app.use('/static', express.static(__dirname + '/../www/static'));
+app.use('/xbmc-remote/static', express.static(__dirname + '/../www/static'));
 
-app.get('/', function(req, res) {
+app.get('/xbmc-remote/', function(req, res) {
   res.render('../www/index.html');
 });
 
-app.get('/tv/', function(req, res) {
+app.get('/xbmc-remote/tv/', function(req, res) {
   res.render('../www/tv/index.html');
 });
 
