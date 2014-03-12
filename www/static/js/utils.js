@@ -39,6 +39,8 @@ function delegateListener(selector, func) {
 function defaults(opts, defaultOpts) {
   var r = Object.create(defaultOpts);
 
+  if (!opts) { return r; }
+  
   for (var key in opts) if (opts.hasOwnProperty[key]) {
     r[key] = opts[key];
   }

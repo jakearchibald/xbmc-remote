@@ -6,6 +6,7 @@ var XBMCSocket = require('../xbmc-socket');
 var RemoteView = require('../views/remote');
 var MainMenuView = require('../views/main-menu');
 var TextInputView = require('../views/text-input');
+var AlertView = require('../views/alert');
 
 function TVPage() {
   var thisTVPage = this;
@@ -58,9 +59,20 @@ TVPageProto._setupXBMCConnection = function(server) {
   }).then(function() {
     thisTVPage._xbmc = xbmc;
   }).catch(function(err) {
-    // TODO: show dialog
-    console.error(err);
-    throw err;
+    var alertView = new AlertView("Cannot connect to XBMC");
+    alertView.addButton('retry', 'Retry');
+    alertView.addButton('cancel', 'Cancel');
+    var modal = thisTVPage._pageView.createModal(alertView);
+
+
+    alertView.on('cancelClick', function() {
+      window.location.href = '/xbmc-remote/';
+    });
+
+    alertView.on('retryClick', function() {
+      modal.close();
+      thisTVPage._setupXBMCConnection(server);
+    });
   });
 };
 
