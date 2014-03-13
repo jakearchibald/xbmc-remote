@@ -5,6 +5,7 @@ var clean = require('gulp-clean');
 var buffer = require('gulp-buffer');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
+var hbsfy = require('hbsfy');
 var browserify = require('browserify');
 var app = require('./server');
 var urlSrc = require('./url-src');
@@ -38,8 +39,12 @@ function jsTask(bundler, dev) {
   return stream.pipe(gulp.dest('www/static/js/'));
 }
 
+function makeBundler(func) {
+  return func('./www/static/js/index.js').transform(hbsfy);
+}
+
 gulp.task('js-build', function() {
-  return jsTask(browserify('./www/static/js/index.js'), false);
+  return jsTask(makeBundler(browserify), false);
 });
 
 gulp.task('watch', ['sass'], function() {
@@ -47,7 +52,7 @@ gulp.task('watch', ['sass'], function() {
   gulp.watch('www/static/css/**/*.scss', ['sass']);
 
   // js
-  var bundler = watchify('./www/static/js/index.js');
+  var bundler = makeBundler(watchify);
   bundler.on('update', rebundle);
 
   function rebundle() {

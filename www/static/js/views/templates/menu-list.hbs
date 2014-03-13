@@ -1,0 +1,10 @@
+{{#each servers}}
+  <li class="item" data-id="{{@key}}">
+    <a href="/xbmc-remote/tv/#{{@key}}">{{@key}}</a>
+    <button data-action="serverEdit">Edit</button>
+    <button data-action="serverDelete">Delete</button>
+  </li>
+{{else}}
+  <li class="item"><a href="/xbmc-remote/tv/#demo">Demo</a></li>
+{{/each}}
+<li class="item"><button data-action="serverAdd">Add XBMC</button></li>

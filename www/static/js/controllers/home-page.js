@@ -12,12 +12,7 @@ function HomePage() {
 
   var servers = this._serverStorage.get();
 
-  if (Object.keys(servers).length === 0) {
-    this._editServer();
-  }
-  else {
-    this._homeView.updateServers(servers);
-  }
+  this._homeView.updateServers(servers);
 
   this._homeView.hideSpinner();
 
