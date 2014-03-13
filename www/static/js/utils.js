@@ -15,10 +15,13 @@ var selectorMatches =
   Element.prototype.mozMatchesSelector ||
   Element.prototype.msMatchesSelector;
 
-function getDelegateEl(el, selector) {
+function getDelegateEl(el, selector, stopPoint) {
   do {
     if (selectorMatches.call(el, selector)) {
       return el;
+    }
+    if (el == stopPoint) {
+      return null;
     }
     el = el.parentNode;
   } while (el instanceof Element);
@@ -28,7 +31,7 @@ function getDelegateEl(el, selector) {
 
 function delegateListener(selector, func) {
   return function(event) {
-    var target = getDelegateEl(event.target, selector);
+    var target = getDelegateEl(event.target, selector, event.currentTarget);
     if (target) {
       event.delegateTarget = target;
       func.call(target, event);
