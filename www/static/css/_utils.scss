@@ -3,3 +3,9 @@
     #{$prefix}transition: $spec;
   }
 }
+
+@mixin transform($spec...) {
+  @each $prefix in -webkit-, '' {
+    #{$prefix}transition: $spec;
+  }
+}

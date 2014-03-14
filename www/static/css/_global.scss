@@ -1,3 +1,12 @@
-h1 {
-	color: green;
+body {
+  margin: 0;
+  background: #000;
+  color: #fff;
+  font-family: sans-serif;
+  line-height: 1.4;
 }
+
+// unbutton
+  [role=button] {
+    cursor: pointer;
+  }

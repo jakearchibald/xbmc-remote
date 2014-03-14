@@ -13,7 +13,7 @@ function Home() {
   this._spinnerView = new SpinnerView(this.el.querySelector('.spinner-root'));
   this._menuList = this.el.querySelector('.menu-list');
 
-  this._menuList.addEventListener('click', delegateListener('button', function(event) {
+  this._menuList.addEventListener('click', delegateListener('button, [role=button]', function(event) {
     var id = getDelegateEl(this, 'li').dataset.id;
     var action = this.dataset.action;
     thisHome.emit(action + 'Click', id);
