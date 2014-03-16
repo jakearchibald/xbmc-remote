@@ -12,11 +12,67 @@
 
 // modal
   .modal-root {
-    opacity: 0;
-    @include transition(opacity 1s);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    
+    .page & {
+      display: flex;
+    }
+
+    flex: none;
+    flex-direction: column;
+    justify-content: center;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #000;
+      opacity: 0;
+    }
+
+    & .modal-container {
+      position: relative;
+      margin: 0 1.2rem;
+      background: #464646;
+      opacity: 0;
+      border-radius: 2px;
+      @include transform(scale(0.5) translateZ(0));
+    }
     
     &.open {
-      opacity: 1;
+      &::before {
+        @include transition(opacity 0.4s ease-out);
+        opacity: 0.5;
+      }
+
+      & .modal-container {
+        opacity: 1;
+        @include transform(translateZ(0));
+        @include transition(all 0.4s $easeOutQuart);
+        @include transition-property(opacity, -webkit-transform);
+        @include transition-property(opacity, transform);
+      }
+    }
+
+    & .close {
+      position: absolute;
+      top: 1.05rem;
+      right: 0.7rem;
+
+      & svg {
+        width: 1rem;
+        height: 1rem;
+      }
+      & path {
+        fill: #fff;
+      }
     }
   }
 
@@ -24,6 +80,10 @@
   .menu-list {
     padding: 0 0.7rem;
     margin: 0;
+    
+    .modal-root & {
+      padding: 0;
+    }
     
     & > .item {
       display: block;
@@ -52,7 +112,6 @@
       flex: none;
       flex-direction: column;
       justify-content: center;
-      background: #000;
       padding: 0 0.7rem;
       position: relative;
       
@@ -66,7 +125,7 @@
         background: #fff;
         opacity: 0;
         @include transform(translateZ(0));
-        @include transition(opacity 0.2s ease);
+        @include transition(opacity 0.2s linear);
       }
       
       &:hover,
@@ -84,6 +143,26 @@
       & .detail {
         opacity: 0.8;
         font-size: 0.9rem;
+      }
+
+      & .label {
+        font-size: 0.9rem;
+      }
+
+      & input {
+        background: none;
+        border: none;
+        font-size: 1.1rem;
+        color: inherit;
+        
+        &:focus {
+          outline: none;
+        }
+        
+        @include placeholder {
+          color: inherit;
+          opacity: 0.8;
+        }
       }
 
       & .icon {
@@ -105,4 +184,25 @@
   .logo {
     text-align: center;
     padding: 3rem 0;
+  }
+
+// headings
+  .h1 {
+    background: #C95800;
+    margin: 0;
+    padding: 0.7rem;
+    position: relative;
+    font-size: 1.3rem;
+    font-weight: normal;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    
+    &::after {
+      content: '';
+      height: 2px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to right, #FF7000, #FFA300);
+    }
   }

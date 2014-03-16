@@ -51,7 +51,17 @@ function defaults(opts, defaultOpts) {
   return r;
 }
 
+var tmpEl = document.createElement('div');
+function strToEl(str) {
+  var r;
+  tmpEl.innerHTML = str;
+  r = tmpEl.children[0];
+  tmpEl.innerHTML = '';
+  return r;
+}
+
 exports.toArray = toArray;
 exports.getDelegateEl = getDelegateEl;
 exports.delegateListener = delegateListener;
 exports.defaults = defaults;
+exports.strToEl = strToEl;

@@ -9,6 +9,10 @@ swig.setDefaults({ cache: false });
 
 app.use('/xbmc-remote/static', express.static(__dirname + '/../www/static'));
 
+app.get(RegExp('^/(xbmc-remote)?$'), function(req, res) {
+  res.redirect('/xbmc-remote/');
+});
+
 app.get('/xbmc-remote/', function(req, res) {
   res.render('../www/index.html');
 });

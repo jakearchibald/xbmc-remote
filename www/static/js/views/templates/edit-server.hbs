@@ -1,0 +1,35 @@
+<section class="server-edit-root root template">
+  <h1 class="h1">
+    {{#if isEdit}}
+      Edit
+    {{else}}
+      Add
+    {{/if}}
+    server
+  </h1>
+  <form class="server-form">
+    <input type="hidden" name="oldNickname" value="">
+    <div class="menu-list">
+      <div>
+        <label class="main-action">
+          <div class="label">Nickname:</div>
+          <input type="text" name="nickname" placeholder="eg Living Room" required>
+        </label>
+      </div>
+      <div>
+        <label class="main-action">
+          <div class="label">Host:</div>
+          <input type="text" name="host" required>
+        </label>
+      </div>
+      <div>
+        <label class="main-action">
+          <div class="label">Port:</div>
+          <input type="number" name="port" pattern="[0-9]*" value="9090" required>
+        </label>
+      </div>
+    </div>
+    <div><button class="submit">Save</button></div>
+    <div class="status"></div>
+  </form>
+</section>

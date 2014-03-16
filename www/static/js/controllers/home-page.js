@@ -34,18 +34,18 @@ var HomePageProto = HomePage.prototype = Object.create(Page);
 
 HomePageProto._editServer = function(id) {
   var thisHomePage = this;
-  var serverEditView = new ServerEditView();
-  var modal = this._pageView.createModal(serverEditView);
   var server = this._serverStorage.get()[id];
-
+  var initialVals;
   if (id) {
-    serverEditView.populateForm({
+    initialVals = {
       oldNickname: id,
       nickname: id,
       host: server.host,
       port: server.port
-    });
+    };
   }
+  var serverEditView = new ServerEditView(initialVals);
+  var modal = this._pageView.createModal(serverEditView);
 
   serverEditView.on('formSubmit', function(data) {
     var xbmc;

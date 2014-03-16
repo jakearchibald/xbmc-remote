@@ -1,4 +1,7 @@
 var EventEmitter = require('events').EventEmitter;
+var strToEl = require('../utils').strToEl;
+
+var editServerTemplate = require('./templates/edit-server.hbs');
 
 var serverEditFields = [
   'oldNickname',
@@ -7,14 +10,19 @@ var serverEditFields = [
   'port'
 ];
 
-function ServerEdit() {
+function ServerEdit(initialVals) {
   var thisServerEdit = this;
   EventEmitter.call(this);
-  this.el = document.querySelector('.server-edit-root.template').cloneNode(true);
-  this.el.classList.remove('template');
+  this.el = strToEl(editServerTemplate({
+    isEdit: !!initialVals
+  }));
 
   this._formEl = this.el.querySelector('.server-form');
   this._statusEl = this.el.querySelector('.status');
+
+  if (initialVals) {
+    this._populateForm(initialVals);
+  }
 
   this._formEl.addEventListener('submit', this._onFormSubmit.bind(this));
 }
@@ -25,7 +33,7 @@ ServerEditProto.setStatus = function(txt) {
   this._statusEl.textContent = txt;
 };
 
-ServerEditProto.populateForm = function(formVals) {
+ServerEditProto._populateForm = function(formVals) {
   var thisServerEdit = this;
 
   serverEditFields.forEach(function(field) {
