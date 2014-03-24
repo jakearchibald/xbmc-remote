@@ -8,7 +8,7 @@ function Modal() {
   this.body = this.el.querySelector('.modal-body');
   this.isOpen = false;
 
-  this.el.querySelector('.close').addEventListener('click', function(event) {
+  this.el.querySelector('.close-btn').addEventListener('click', function(event) {
     thisModal.close();
     event.preventDefault();
   });
@@ -38,6 +38,7 @@ ModalProto.close = function() {
 
   this.el.addEventListener('transitionend', transitionEnd);
   this.el.classList.remove('open');
+  this.el.classList.add('close');
   this.isOpen = false;
 };
 

@@ -61,7 +61,19 @@
       }
     }
 
-    & .close {
+    &.close {
+      &::before {
+        @include transition(opacity 0.15s ease-in);
+      }
+
+      & .modal-container {
+        @include transition(all 0.15s $easeInQuad);
+        @include transition-property(opacity, -webkit-transform);
+        @include transition-property(opacity, transform);
+      }
+    }
+
+    & .close-btn {
       position: absolute;
       top: 1.05rem;
       right: 0.7rem;
