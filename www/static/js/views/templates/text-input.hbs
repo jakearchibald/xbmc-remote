@@ -1,0 +1,21 @@
+<section class="text-input-root">
+  <h1 class="h1">Play URL</h1>
+  <form>
+    <div class="menu-list">
+      <div>
+        <label class="main-action">
+          <div class="label">{{label}}</div>
+          <input type="{{type}}"
+                 id="text-input"
+                 name="text"
+                 {{#if required}}required{{/if}}
+                 {{#if autofocus}}autofocus{{/if}}
+                 {{#if placeholder}}placeholder="{{placeholder}}"{{/if}}
+                 {{#if value}}value="{{value}}"{{/if}}
+                 >
+        </label>
+      </div>
+    </div>
+    <div class="status"></div>
+  </form>
+</section>

@@ -1,5 +1,8 @@
 var EventEmitter = require('events').EventEmitter;
 var defaults = require('../utils').defaults;
+var strToEl = require('../utils').strToEl;
+
+var textInputTemplate = require('./templates/text-input.hbs');
 
 function TextInput(label, opts) {
   var thisTextInput = this;
@@ -12,20 +15,12 @@ function TextInput(label, opts) {
     autofocus: true
   });
 
+  opts.label = label;
+
   EventEmitter.call(this);
-  this.el = document.querySelector('.text-input-root.template').cloneNode(true);
-  this.el.classList.remove('template');
+  this.el = strToEl(textInputTemplate(opts));
 
   this._formEl = this.el.querySelector('form');
-
-  this.el.querySelector('.label-text').textContent = label;
-  this.input = this._formEl.text;
-  this._formEl.text.type = opts.type;
-  this._formEl.text.value = opts.value;
-  this._formEl.text.placeholder = opts.placeholder;
-  this._formEl.text.required = opts.required;
-  this._formEl.text.autofocus = opts.autofocus;
-
   this._formEl.addEventListener('submit', this._onFormSubmit.bind(this));
 }
 

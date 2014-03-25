@@ -30,6 +30,7 @@ function TVPage() {
 var TVPageProto = TVPage.prototype = Object.create(Page);
 
 // decorator
+// TODO Move this logic into XBMCSocket to handle reconnects
 function readyQueue(func) {
   return function() {
     var thisTVPage = this;
@@ -63,7 +64,6 @@ TVPageProto._setupXBMCConnection = function(server) {
     alertView.addButton('retry', 'Retry');
     alertView.addButton('cancel', 'Cancel');
     var modal = thisTVPage._pageView.createModal(alertView);
-
 
     alertView.on('cancelClick', function() {
       window.location.href = '/xbmc-remote/';
