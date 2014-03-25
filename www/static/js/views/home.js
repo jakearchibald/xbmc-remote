@@ -4,7 +4,7 @@ var MenuListView = require('./menu-list');
 var delegateListener = require('../utils').delegateListener;
 var getDelegateEl = require('../utils').getDelegateEl;
 
-var menuListTemplate = require('./templates/menu-list.hbs');
+var menuListTemplate = require('./templates/servers-menu-list.hbs');
 
 function Home() {
   var thisHome = this;

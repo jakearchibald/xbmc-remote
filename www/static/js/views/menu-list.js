@@ -1,5 +1,6 @@
 var EventEmitter = require('events').EventEmitter;
 var toArray = require('../utils').toArray;
+var getDelegateEl = require('../utils').getDelegateEl;
 
 function MenuList(el) {
   var thisMenuList = this;
@@ -12,7 +13,7 @@ function MenuList(el) {
 
 var MenuListProto = MenuList.prototype = Object.create(EventEmitter.prototype);
 
-MenuListProto._onKeyDown = function() {
+MenuListProto._onKeyDown = function(event) {
   var currentItem = event.target;
   var items;
 
@@ -28,8 +29,11 @@ MenuListProto._onKeyDown = function() {
       event.preventDefault();
       break;
     case 13:
-      currentItem.click();
-      event.preventDefault();
+      // look for a fake button to click
+      if (getDelegateEl(currentItem, "[role=button]", event.currentTarget)) {
+        currentItem.click();
+        event.preventDefault();
+      }
       break;
   }
 };
