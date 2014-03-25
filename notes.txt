@@ -41,3 +41,6 @@ Clean library
 * Live TV
   * EPG browse
   * 
+
+
+Colours on https://www.defrac.com/audiotool.sketch/ are nice

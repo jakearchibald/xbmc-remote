@@ -10,6 +10,13 @@ function Modal() {
   this.body = this.el.querySelector('.modal-body');
   this.isOpen = false;
 
+  this.el.addEventListener('click', function(event) {
+    if (event.target == this) {
+      thisModal.close();
+      event.preventDefault();
+    }
+  });
+
   this.el.querySelector('.close-btn').addEventListener('click', function(event) {
     thisModal.close();
     event.preventDefault();
