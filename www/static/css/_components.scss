@@ -1,14 +1,4 @@
-// root components
-  .root {
-    display: none;
-  }
 
-// page
-  .page {
-    & .root {
-      display: block;
-    }
-  }
 
 // modal
   .modal-root {
@@ -77,6 +67,10 @@
       position: absolute;
       top: 1.05rem;
       right: 0.7rem;
+      
+      &:focus {
+        outline: 0;
+      }
 
       & svg {
         width: 1rem;

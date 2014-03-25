@@ -2,6 +2,7 @@ var EventEmitter = require('events').EventEmitter;
 var strToEl = require('../utils').strToEl;
 
 var editServerTemplate = require('./templates/edit-server.hbs');
+var MenuListView = require('./menu-list');
 
 var serverEditFields = [
   'oldNickname',
@@ -19,6 +20,7 @@ function ServerEdit(initialVals) {
 
   this._formEl = this.el.querySelector('.server-form');
   this._statusEl = this.el.querySelector('.status');
+  this._menuListView = new MenuListView(this.el.querySelector('.menu-list'));
 
   if (initialVals) {
     this._populateForm(initialVals);

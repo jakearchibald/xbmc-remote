@@ -1,10 +1,12 @@
 var EventEmitter = require('events').EventEmitter;
+var strToEl = require('../utils').strToEl;
+
+var modalTemplate = require('./templates/modal.hbs');
 
 function Modal() {
   var thisModal = this;
   EventEmitter.call(this);
-  this.el = document.querySelector('.modal-root.template').cloneNode(true);
-  this.el.classList.remove('template');
+  this.el = strToEl(modalTemplate());
   this.body = this.el.querySelector('.modal-body');
   this.isOpen = false;
 
