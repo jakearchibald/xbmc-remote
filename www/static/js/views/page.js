@@ -6,9 +6,9 @@ function Page() {
 
 var PageProto = Page.prototype;
 
-PageProto.createModal = function(view) {
+PageProto.createModal = function(view, opts) {
   var thisPage = this;
-  var modal = new Modal();
+  var modal = new Modal(opts);
   modal.body.appendChild(view.el);
   // TODO: manage focus while modal active
   this.el.appendChild(modal.el);

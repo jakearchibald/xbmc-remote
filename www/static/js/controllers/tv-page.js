@@ -60,18 +60,23 @@ TVPageProto._setupXBMCConnection = function(server) {
   }).then(function() {
     thisTVPage._xbmc = xbmc;
   }).catch(function(err) {
-    var alertView = new AlertView("Cannot connect to XBMC");
-    alertView.addButton('retry', 'Retry');
-    alertView.addButton('cancel', 'Cancel');
-    var modal = thisTVPage._pageView.createModal(alertView);
-
-    alertView.on('cancelClick', function() {
-      window.location.href = '/xbmc-remote/';
-    });
-
-    alertView.on('retryClick', function() {
-      modal.close();
-      thisTVPage._setupXBMCConnection(server);
+    var alertView = new AlertView("Error", "Cannot connect to XBMC", [
+      {
+        text: "Retry",
+        onclick: function() {
+          modal.close();
+          thisTVPage._setupXBMCConnection(server);
+        }
+      },
+      {
+        text: "Cancel",
+        onclick: function() {
+          window.location.href = '/xbmc-remote/';
+        }
+      }
+    ]);
+    var modal = thisTVPage._pageView.createModal(alertView, {
+      closable: false
     });
   });
 };

@@ -1,26 +1,33 @@
 var EventEmitter = require('events').EventEmitter;
 var strToEl = require('../utils').strToEl;
+var defaults = require('../utils').defaults;
 
 var modalTemplate = require('./templates/modal.hbs');
 
-function Modal() {
+function Modal(opts) {
+  opts = defaults(opts, {
+    closable: true
+  });
+
   var thisModal = this;
   EventEmitter.call(this);
-  this.el = strToEl(modalTemplate());
+  this.el = strToEl(modalTemplate(opts));
   this.body = this.el.querySelector('.modal-body');
   this.isOpen = false;
 
-  this.el.addEventListener('click', function(event) {
-    if (event.target == this) {
+  if (opts.closable) {
+    this.el.addEventListener('click', function(event) {
+      if (event.target == this) {
+        thisModal.close();
+        event.preventDefault();
+      }
+    });
+
+    this.el.querySelector('.close-btn').addEventListener('click', function(event) {
       thisModal.close();
       event.preventDefault();
-    }
-  });
-
-  this.el.querySelector('.close-btn').addEventListener('click', function(event) {
-    thisModal.close();
-    event.preventDefault();
-  });
+    });
+  }
 }
 
 var ModalProto = Modal.prototype = Object.create(EventEmitter.prototype);
