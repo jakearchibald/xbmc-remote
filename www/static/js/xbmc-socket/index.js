@@ -1,32 +1,13 @@
 var Promise = require('rsvp').Promise;
 
+var defaults = require('../utils.js').defaults;
+
 function XBMCSocket(host, port) {
   var xbmcSocket = this;
   var timeout = 3000;
 
-  xbmcSocket._pending = {};
-  xbmcSocket._socket = new WebSocket('ws://' + host + ':' + port + '/jsonrpc');
-  xbmcSocket._ready = Promise.race([
-    new Promise(function(resolve, reject) {
-      setTimeout(function() {
-        reject(Error("Connection failure (timeout)"));
-      }, timeout);
-    }),
-    new Promise(function(resolve, reject) {
-      xbmcSocket._socket.onopen = resolve;
-      xbmcSocket._socket.onerror = function() {
-        reject(Error("Connection failure"));
-      };
-    })
-  ]).then(function() {
-    return xbmcSocket.jsonrpcVersion();
-  }).then(function(response) {
-    if (response.version.major < 6) {
-      throw Error("Only XBMC 12 (Frodo) & onwards supported");
-    }
-  });
-
-  xbmcSocket._socket.onmessage = this._socketListener.bind(this);
+  this._pending = {};
+  this._manageConnection(host, port);
 }
 
 var XBMCSocketProto = XBMCSocket.prototype;
@@ -38,24 +19,58 @@ XBMCSocketProto._pending = null;
 // ready promise
 XBMCSocketProto._ready = null;
 
-// make api call and return promise
-XBMCSocketProto._apiCall = function(method, params) {
-  var xbmcSocket = this;
-  var callId = 0;
+XBMCSocketProto._manageConnection = function(host, port) {
+  var thisXBMCSocket = this;
 
-  // generate a unique callId
-  while (callId in xbmcSocket._pending) callId++;
+  this._queue = this._connectSocket(host, port, {
+    retryAttempts: 5
+  }).then(function() {
+    thisXBMCSocket._socket.onmessage = thisXBMCSocket._socketListener.bind(thisXBMCSocket);
+    thisXBMCSocket._socket.addEventListener('close', thisXBMCSocket._manageConnection.bind(thisXBMCSocket, host, port));
+  });
+};
+
+XBMCSocketProto._connectSocket = function(host, port, opts) {
+  var thisXBMCSocket = this;
+  var waitReconnect = 500;
+
+  opts = defaults(opts, {
+    retryAttempts: 0
+  });
 
   return new Promise(function(resolve, reject) {
-    var call = {
-      jsonrpc: "2.0",
-      method: method,
-      id: callId
-    };
+    thisXBMCSocket._socket = new WebSocket('ws://' + host + ':' + port + '/jsonrpc');
 
-    if (params) { call.params = params; }
-    xbmcSocket._pending[callId] = [resolve, reject];
-    xbmcSocket._socket.send(JSON.stringify(call));
+    function removeListeners() {
+      thisXBMCSocket._socket.removeEventListener('close', onClose);
+      thisXBMCSocket._socket.removeEventListener('open', onOpen);
+    }
+
+    function onOpen() {
+      removeListeners();
+      // release the queue
+      resolve(thisXBMCSocket._socket);
+    }
+
+    function onClose() {
+      removeListeners();
+      
+      // retry a decrecing number of times
+      if (opts.retryAttempts) {
+        setTimeout(function() {
+          opts.retryAttempts--;
+          resolve(
+            thisXBMCSocket._connectSocket(host, port, opts)
+          );
+        }, waitReconnect);
+      }
+      else {
+        reject(Error("Connection failure"));
+      }
+    }
+    
+    thisXBMCSocket._socket.addEventListener('close', onClose);
+    thisXBMCSocket._socket.addEventListener('open', onOpen);
   });
 };
 
@@ -93,9 +108,39 @@ XBMCSocketProto._socketListener = function(event) {
   }
 };
 
-// return ready promse
 XBMCSocketProto.ready = function() {
-  return this._ready;
+  var thisXBMCSocket = this;
+
+  return this._queue.then(function() {
+    return thisXBMCSocket.jsonrpcVersion();
+  }).then(function(response) {
+    if (response.version.major < 6) {
+      throw Error("Only XBMC 12 (Frodo) & onwards supported");
+    }
+  });
+};
+
+// make api call and return promise
+XBMCSocketProto._apiCall = function(method, params) {
+  var thisXBMCSocket = this;
+  var callId = 0;
+
+  // generate a unique callId
+  while (callId in this._pending) callId++;
+
+  return this._queue.then(function() {
+    return new Promise(function(resolve, reject) {
+      var call = {
+        jsonrpc: "2.0",
+        method: method,
+        id: callId
+      };
+
+      if (params) { call.params = params; }
+      thisXBMCSocket._pending[callId] = [resolve, reject];
+      thisXBMCSocket._socket.send(JSON.stringify(call));
+    });
+  });
 };
 
 XBMCSocketProto.playerOpenUrl = function(url) {

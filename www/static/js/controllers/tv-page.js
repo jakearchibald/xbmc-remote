@@ -29,36 +29,14 @@ function TVPage() {
 
 var TVPageProto = TVPage.prototype = Object.create(Page);
 
-// decorator
-// TODO Move this logic into XBMCSocket to handle reconnects
-function readyQueue(func) {
-  return function() {
-    var thisTVPage = this;
-    var args = arguments;
-
-    function go() {
-      return func.apply(thisTVPage, args);
-    }
-
-    if (this._xbmc) {
-      return go();
-    }
-    else {
-      return this._xbmcReady.then(go);
-    }
-  };
-}
-
 TVPageProto._setupXBMCConnection = function(server) {
   var thisTVPage = this;
   this._xbmc = null;
 
-  this._xbmcReady = Promise.resolve().then(function() {
+  Promise.resolve().then(function() {
     if (!server) { throw Error("Server '" + serverId + "' not a stored server"); }
-    xbmc = new XBMCSocket(server.host, server.port);
-    return xbmc.ready();
-  }).then(function() {
-    thisTVPage._xbmc = xbmc;
+    thisTVPage._xbmc = new XBMCSocket(server.host, server.port);
+    return thisTVPage._xbmc.ready();
   }).catch(function(err) {
     var alertView = new AlertView("Error", "Cannot connect to XBMC", [
       {
@@ -81,13 +59,13 @@ TVPageProto._setupXBMCConnection = function(server) {
   });
 };
 
-TVPageProto._onRemoteButtonClick = readyQueue(function(method) {
+TVPageProto._onRemoteButtonClick = function(method) {
   this._xbmc[method]();
-});
+};
 
-TVPageProto._playUrl = readyQueue(function(url) {
+TVPageProto._playUrl = function(url) {
   return this._xbmc.playerOpenUrl(url);
-});
+};
 
 TVPageProto._onPlayUrlClick = function(method) {
   var thisHomePage = this;
