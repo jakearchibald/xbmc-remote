@@ -1,9 +1,3 @@
-@mixin transition($spec...) {
-  @each $prefix in -webkit-, '' {
-    #{$prefix}transition: $spec;
-  }
-}
-
 @mixin placeholder {
   &::-webkit-input-placeholder,
   &::-moz-placeholder,
@@ -40,6 +34,11 @@
   $easeInOutCirc  : cubic-bezier(0.785, 0.135, 0.150, 0.860);
   $easeInOutBack  : cubic-bezier(0.680, -0.550, 0.265, 1.550);
 
+  @mixin transition($spec...) {
+    @each $prefix in -webkit-, '' {
+      #{$prefix}transition: $spec;
+    }
+  }
 
   @mixin transition-property($spec...) {
     @each $prefix in -webkit-, '' {

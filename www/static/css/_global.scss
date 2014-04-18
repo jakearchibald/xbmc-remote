@@ -7,11 +7,13 @@ body {
   min-height: 100%;
   margin: 0;
   color: #fff;
+  fill: #fff;
   font-family: sans-serif;
   line-height: 1.4;
 }
 
-// Fake buttons
-  [role=button] {
+// button-like
+  [role=button],
+  label {
     cursor: pointer;
   }

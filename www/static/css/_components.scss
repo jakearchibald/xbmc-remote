@@ -65,7 +65,7 @@
 
     & .close-btn {
       position: absolute;
-      top: 1.05rem;
+      top: 0.9rem;
       right: 0.7rem;
       
       &:focus {
@@ -113,17 +113,20 @@
       width: 100%;
     }
 
+    & .row,
+    & .main-action {
+      border-top: 1px solid #5A5A5A;
+      min-height: 2.9rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      padding: 0.5rem 0.7rem;
+    }
+
     & .main-action {
       text-decoration: none;
       color: #fff;
-      border-top: 1px solid #5a5a5a;
-      min-height: 3.9rem;
-      display: flex;
-      flex: none;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0 0.7rem;
-      position: relative;
       
       &:before {
         content: '';
@@ -200,7 +203,7 @@
   .h1 {
     background: #C95800;
     margin: 0;
-    padding: 0.7rem;
+    padding: 0.5rem 0.7rem;
     position: relative;
     font-size: 1.3rem;
     font-weight: normal;
