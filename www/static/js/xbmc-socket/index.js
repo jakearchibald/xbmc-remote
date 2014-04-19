@@ -1,4 +1,5 @@
 var Promise = require('rsvp').Promise;
+var EventEmitter = require('events').EventEmitter;
 
 var defaults = require('../utils.js').defaults;
 
@@ -6,11 +7,13 @@ function XBMCSocket(host, port) {
   var xbmcSocket = this;
   var timeout = 3000;
 
+  EventEmitter.call(this);
+
   this._pending = {};
   this._manageConnection(host, port);
 }
 
-var XBMCSocketProto = XBMCSocket.prototype;
+var XBMCSocketProto = XBMCSocket.prototype = Object.create(EventEmitter.prototype);
 
 // web socket
 XBMCSocketProto._socket = null;
@@ -27,6 +30,9 @@ XBMCSocketProto._manageConnection = function(host, port) {
   }).then(function() {
     thisXBMCSocket._socket.onmessage = thisXBMCSocket._socketListener.bind(thisXBMCSocket);
     thisXBMCSocket._socket.addEventListener('close', thisXBMCSocket._manageConnection.bind(thisXBMCSocket, host, port));
+  }).catch(function(err) {
+    thisXBMCSocket.emit('connectionfailure', err);
+    throw err;
   });
 };
 
@@ -55,7 +61,7 @@ XBMCSocketProto._connectSocket = function(host, port, opts) {
     function onClose() {
       removeListeners();
       
-      // retry a decrecing number of times
+      // retry a decreasing number of times
       if (opts.retryAttempts) {
         setTimeout(function() {
           opts.retryAttempts--;
@@ -65,7 +71,7 @@ XBMCSocketProto._connectSocket = function(host, port, opts) {
         }, waitReconnect);
       }
       else {
-        reject(Error("Connection failure"));
+        reject(Error("Cannot connect to XBMC"));
       }
     }
     

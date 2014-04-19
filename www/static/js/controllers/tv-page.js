@@ -11,8 +11,9 @@ var AlertView = require('../views/alert');
 function TVPage() {
   var thisTVPage = this;
   var serverId = window.location.hash.slice(1).split('/')[0];
-  var server = new ServerStorage().get()[serverId];
   var xbmc;
+
+  this._server = new ServerStorage().get()[serverId];
 
   Page.call(this);
 
@@ -24,12 +25,13 @@ function TVPage() {
   this._remoteView.on('buttonClick', this._onRemoteButtonClick.bind(this));
   this._mainMenuView.on('playUrlClick', this._onPlayUrlClick.bind(this));
 
-  this._setupXBMCConnection(server);
+  this._setupXBMCConnection();
 }
 
 var TVPageProto = TVPage.prototype = Object.create(Page);
 
-TVPageProto._setupXBMCConnection = function(server) {
+TVPageProto._setupXBMCConnection = function() {
+  var server = this._server;
   var thisTVPage = this;
   this._xbmc = null;
 
@@ -37,25 +39,32 @@ TVPageProto._setupXBMCConnection = function(server) {
     if (!server) { throw Error("Server '" + serverId + "' not a stored server"); }
     thisTVPage._xbmc = new XBMCSocket(server.host, server.port);
     return thisTVPage._xbmc.ready();
-  }).catch(function(err) {
-    var alertView = new AlertView("Error", "Cannot connect to XBMC", [
-      {
-        text: "Retry",
-        onclick: function() {
-          modal.close();
-          thisTVPage._setupXBMCConnection(server);
-        }
-      },
-      {
-        text: "Cancel",
-        onclick: function() {
-          window.location.href = '/xbmc-remote/';
-        }
-      }
-    ]);
-    var modal = thisTVPage._pageView.createModal(alertView, {
-      closable: false
+  }).then(function() {
+    thisTVPage._xbmc.on('connectionfailure', function() {
+      thisTVPage._connectionFailure("Connection to XBMC lost");
     });
+  }).catch(function(err) {
+    thisTVPage._connectionFailure(err.message);
+  });
+};
+
+TVPageProto._connectionFailure = function(errorMessage) {
+  var thisTVPage = this;
+
+  var alertView = new AlertView("Error", errorMessage || "Cannot connect to XBMC", [{
+    text: "Retry",
+    onclick: function() {
+      modal.close();
+      thisTVPage._setupXBMCConnection(thisTVPage._server);
+    }}, {
+    text: "Cancel",
+    onclick: function() {
+      window.location.href = '/xbmc-remote/';
+    }
+  }]);
+
+  var modal = thisTVPage._pageView.createModal(alertView, {
+    closable: false
   });
 };
 
