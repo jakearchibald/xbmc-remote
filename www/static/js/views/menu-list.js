@@ -1,17 +1,15 @@
-var EventEmitter = require('events').EventEmitter;
 var toArray = require('../utils').toArray;
 var getDelegateEl = require('../utils').getDelegateEl;
 
 function MenuList(el) {
   var thisMenuList = this;
 
-  EventEmitter.call(this);
   this.el = el;
 
   this.el.addEventListener('keydown', this._onKeyDown.bind(this));
 }
 
-var MenuListProto = MenuList.prototype = Object.create(EventEmitter.prototype);
+var MenuListProto = MenuList.prototype;
 
 MenuListProto._onKeyDown = function(event) {
   var currentItem = event.target;
