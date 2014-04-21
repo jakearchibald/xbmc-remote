@@ -31,11 +31,17 @@
   <svg viewBox="0 0 100 100" preserveAspectRatio="xMaxYMax">
     <circle cx="86" cy="86" r="17" fill="white"/>
     <circle cx="86" cy="86" r="14"/>
+    <svg width="20" height="20" x="76" y="76" viewBox="-256 -384 2048 2048">
+      <path d="M1536 1088v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45z" fill="#fff"/>
+    </svg>
   </svg>
     
   <svg viewBox="0 0 100 100" preserveAspectRatio="xMinYMax">
     <circle cx="14" cy="86" r="17" fill="white"/>
     <circle cx="14" cy="86" r="14"/>
+    <svg width="20" height="20" x="4" y="76" viewBox="-256 -384 2048 2048">
+      <path d="M1536 640v128q0 53-32.5 90.5t-84.5 37.5h-704l293 294q38 36 38 90t-38 90l-75 76q-37 37-90 37-52 0-91-37l-651-652q-37-37-37-90 0-52 37-91l651-650q38-38 91-38 52 0 90 38l75 74q38 38 38 91t-38 91l-293 293h704q52 0 84.5 37.5t32.5 90.5z" fill="#fff"/>
+    </svg>
   </svg>
 
   <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMin">
