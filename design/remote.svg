@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
   <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-    <path id="remote-ring-button" d="M 50 0 C 36.192881 0 23.70447 5.6080297 14.65625 14.65625 L 50 50 L 85.34375 14.65625 C 76.29553 5.6080297 63.807119 -7.0277611e-15 50 0 z"/>
-    <use xlink:href="#remote-ring-button" transform="rotate(90,  50, 50)"/>
-    <use xlink:href="#remote-ring-button" transform="rotate(180, 50, 50)"/>
-    <use xlink:href="#remote-ring-button" transform="rotate(270, 50, 50)"/>
+    <path id="remote-ring-button" d="M50 0c-13.807 0-26.296 5.608-35.344 14.656l35.344 35.344 35.344-35.344c-9.048-9.048-21.537-14.656-35.344-14.656z"/>
+    <use xlink:href="#remote-ring-button" transform="rotate(90 50 50)"/>
+    <use xlink:href="#remote-ring-button" transform="rotate(180 50 50)"/>
+    <use xlink:href="#remote-ring-button" transform="rotate(270 50 50)"/>
     <circle cx="50" cy="50" r="23" fill="white"/>
     <rect x="47.5" y="-5" width="5" height="33" transform="rotate(45,  50, 50)" fill="white"/>
     <rect x="47.5" y="-5" width="5" height="33" transform="rotate(135, 50, 50)" fill="white"/>
@@ -16,9 +16,7 @@
     <circle cx="14" cy="14" r="17" fill="white"/>
     <circle cx="14" cy="14" r="14"/>
     <svg width="20" height="20" x="4" y="4" viewBox="-192 -384 2048 2048">
-      <g transform="scale(1 -1) translate(0 -1280)">
-        <path d="M1408 544v-480q0 -26 -19 -45t-45 -19h-384v384h-256v-384h-384q-26 0 -45 19t-19 45v480q0 1 0.5 3t0.5 3l575 474l575 -474q1 -2 1 -6zM1631 613l-62 -74q-8 -9 -21 -11h-3q-13 0 -21 7l-692 577l-692 -577q-12 -8 -24 -7q-13 2 -21 11l-62 74q-8 10 -7 23.5t11 21.5 l719 599q32 26 76 26t76 -26l244 -204v195q0 14 9 23t23 9h192q14 0 23 -9t9 -23v-408l219 -182q10 -8 11 -21.5t-7 -23.5z" fill="white"/>
-      </g>
+      <path d="M1408 736v480q0 26-19 45t-45 19h-384v-384h-256v384h-384q-26 0-45-19t-19-45v-480q0-1 .5-3t.5-3l575-474 575 474q1 2 1 6zm223-69l-62 74q-8 9-21 11h-3q-13 0-21-7l-692-577-692 577q-12 8-24 7-13-2-21-11l-62-74q-8-10-7-23.5t11-21.5l719-599q32-26 76-26t76 26l244 204v-195q0-14 9-23t23-9h192q14 0 23 9t9 23v408l219 182q10 8 11 21.5t-7 23.5z" fill="#fff"/>
     </svg>
   </svg>
     
@@ -26,9 +24,7 @@
     <circle cx="86" cy="14" r="17" fill="white"/>
     <circle cx="86" cy="14" r="14"/>
     <svg width="20" height="20" x="76" y="4" viewBox="-704 -384 2048 2048">
-      <g transform="scale(1 -1) translate(0 -1280)">
-        <path d="M640 192v-128q0 -26 -19 -45t-45 -19h-512q-26 0 -45 19t-19 45v128q0 26 19 45t45 19h64v384h-64q-26 0 -45 19t-19 45v128q0 26 19 45t45 19h384q26 0 45 -19t19 -45v-576h64q26 0 45 -19t19 -45zM512 1344v-192q0 -26 -19 -45t-45 -19h-256q-26 0 -45 19t-19 45v192 q0 26 19 45t45 19h256q26 0 45 -19t19 -45z" fill="white" />
-      </g>
+      <path d="M640 1088v128q0 26-19 45t-45 19h-512q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h64v-384h-64q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h384q26 0 45 19t19 45v576h64q26 0 45 19t19 45zm-128-1152v192q0 26-19 45t-45 19h-256q-26 0-45-19t-19-45v-192q0-26 19-45t45-19h256q26 0 45 19t19 45z" fill="#fff"/>
     </svg>
   </svg>
     
