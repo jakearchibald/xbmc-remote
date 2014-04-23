@@ -8,7 +8,7 @@ function Remote() {
   EventEmitter.call(this);
   this.el = document.querySelector('.remote-root');
 
-  this.el.addEventListener('click', delegateListener('button', function(event) {
+  this.el.addEventListener('click', delegateListener('[role=button]', function(event) {
     thisRemote.emit('buttonClick', this.dataset.method);
   }));
 }

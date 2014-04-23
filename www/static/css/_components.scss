@@ -1,4 +1,7 @@
-
+// page
+  .page {
+    height: 100%;
+  }
 
 // modal
   .modal-root {
@@ -217,5 +220,58 @@
       left: 0;
       right: 0;
       background: linear-gradient(to right, #FF7000, #FFA300);
+    }
+  }
+
+// remote
+  .remote-root {
+    background: #000;
+    overflow: hidden;
+    position: relative;
+    
+    & .heighter {
+      padding-top: 100%;
+    }
+
+    & .remote-outer {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      bottom: 1rem;
+      right: 1rem;
+    }
+
+    & .remote-svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+    
+    & .mask,
+    & .icon {
+      fill: #000;
+    }
+    & .icon {
+      pointer-events: none;
+    }
+    & .button {
+      fill: #ccc;
+    }
+  }
+
+// tv-root page
+  .tv-root {
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    
+    & .remote-root {
+      max-height: -webkit-max-content;
+    }
+    & .main-menu-root {
+      flex: 1;
+      min-height: -webkit-min-content;
     }
   }

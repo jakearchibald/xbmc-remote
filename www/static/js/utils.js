@@ -16,6 +16,10 @@ var selectorMatches =
   Element.prototype.msMatchesSelector;
 
 function getDelegateEl(el, selector, stopPoint) {
+  if (el instanceof SVGElementInstance) {
+    el = el.correspondingUseElement;
+  }
+  
   do {
     if (selectorMatches.call(el, selector)) {
       return el;

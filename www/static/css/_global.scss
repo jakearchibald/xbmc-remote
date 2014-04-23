@@ -1,10 +1,11 @@
 html {
   background: #000 linear-gradient(to bottom, #000, #363E53);
   height: 100%;
+  overflow: hidden;
 }
 
 body {
-  min-height: 100%;
+  height: 100%;
   margin: 0;
   color: #fff;
   fill: #fff;
