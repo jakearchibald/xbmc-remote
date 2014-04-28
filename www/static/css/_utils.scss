@@ -46,6 +46,17 @@
     }
   }
 
+  @mixin animation($type) {
+    @each $prefix in -webkit-, '' {
+      #{$prefix}animation: $type;
+    }
+  }
+
+  @mixin keyframes($name) {
+    @-webkit-keyframes $name { @content; }
+    @keyframes         $name { @content; }
+  }
+
   @mixin transform($spec...) {
     @each $prefix in -webkit-, '' {
       #{$prefix}transform: $spec;

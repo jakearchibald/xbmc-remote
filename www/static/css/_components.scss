@@ -224,6 +224,12 @@
   }
 
 // remote
+  @include keyframes(flash-white) {
+    from {
+      fill: #fff;
+    }
+  }
+
   .remote-root {
     background: #000;
     overflow: hidden;
@@ -259,9 +265,11 @@
       cursor: pointer;
     }
     & .button {
-      &:hover,
-      &.hover {
-        fill: #fff;
+      &:hover {
+        fill: #eee;
+      }
+      &.flash {
+        @include animation(flash-white 0.2s linear both);
       }
     }
   }

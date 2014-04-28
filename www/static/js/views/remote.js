@@ -9,7 +9,23 @@ function Remote() {
   this.el = document.querySelector('.remote-root');
 
   this.el.addEventListener('click', delegateListener('[role=button]', function(event) {
+    var animEndEventName;
+
+    if ('animation' in this.style) {
+      animEndEventName = 'animationend';
+    }
+    else {
+      animEndEventName = 'webkitAnimationEnd';
+    }
+
     thisRemote.emit('buttonClick', this.dataset.method);
+    this.classList.add('flash');
+    this.addEventListener(animEndEventName, function anim(event) {
+      if (event.target == this) {
+        this.classList.remove('flash');
+        this.removeEventListener(event.type, anim);
+      }
+    });
   }));
 }
 
