@@ -9,7 +9,10 @@
         <div class="remote-outer">
           <svg class="remote-svg">
             <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-              <path class="button" role="button" tabindex="0" data-method="inputUp" id="remote-ring-button" d="M50 0c-13.807 0-26.296 5.608-35.344 14.656l35.344 35.344 35.344-35.344c-9.048-9.048-21.537-14.656-35.344-14.656z"/>
+              <defs>
+                <path id="remote-ring-button" d="M50 0c-13.807 0-26.296 5.608-35.344 14.656l35.344 35.344 35.344-35.344c-9.048-9.048-21.537-14.656-35.344-14.656z"/>
+              </defs>
+              <use class="button" role="button" tabindex="0" data-method="inputUp" xlink:href="#remote-ring-button"/>
               <use class="button" role="button" tabindex="0" data-method="inputRight" xlink:href="#remote-ring-button" transform="rotate(90 50 50)"/>
               <use class="button" role="button" tabindex="0" data-method="inputDown" xlink:href="#remote-ring-button" transform="rotate(180 50 50)"/>
               <use class="button" role="button" tabindex="0" data-method="inputLeft" xlink:href="#remote-ring-button" transform="rotate(270 50 50)"/>
