@@ -269,9 +269,13 @@
     
     & .remote-root {
       max-height: -webkit-max-content;
+      max-height: -moz-max-content;
+      max-height: -max-content;
     }
     & .main-menu-root {
       flex: 1;
       min-height: -webkit-min-content;
+      min-height: -moz-min-content;
+      min-height: -min-content;
     }
   }

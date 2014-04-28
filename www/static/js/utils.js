@@ -16,7 +16,7 @@ var selectorMatches =
   Element.prototype.msMatchesSelector;
 
 function getDelegateEl(el, selector, stopPoint) {
-  if (el instanceof SVGElementInstance) {
+  if (window.SVGElementInstance && el instanceof SVGElementInstance) {
     el = el.correspondingUseElement;
   }
   
