@@ -3,6 +3,7 @@ var ServerStorage = require('../server-storage');
 var HomeView = require('../views/home');
 var ServerEditView = require('../views/server-edit');
 var XBMCSocket = require('../xbmc-socket');
+var Promise = require('rsvp').Promise;
 
 function HomePage() {
   var thisHomePage = this;
