@@ -228,6 +228,7 @@
     background: #000;
     overflow: hidden;
     position: relative;
+    fill: #ccc;
     
     & .heighter {
       padding-top: 100%;
@@ -255,9 +256,13 @@
     }
     & .icon {
       pointer-events: none;
+      cursor: pointer;
     }
     & .button {
-      fill: #ccc;
+      &:hover,
+      &.hover {
+        fill: #fff;
+      }
     }
   }
 
