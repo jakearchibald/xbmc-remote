@@ -91,7 +91,7 @@ XBMCSocketProto._socketListener = function(event) {
   }
 
   if (!('id' in data)) {
-    console.log(data);
+    this._handleMessage(data);
     return;
   }
 
@@ -111,6 +111,15 @@ XBMCSocketProto._socketListener = function(event) {
   }
   else {
     resolver[1](Error(data.error));
+  }
+};
+
+XBMCSocketProto._handleMessage = function(data) {
+  if (data.method == 'Input.OnInputRequested') {
+    this.emit('inputrequested', data.params.data);
+  }
+  else {
+    console.log(data);
   }
 };
 
@@ -155,6 +164,13 @@ XBMCSocketProto.playerOpenUrl = function(url) {
   });
 };
 
+XBMCSocketProto.inputSendText = function(text) {
+  return this._apiCall("Input.SendText", {
+    text: text,
+    done: true
+  });
+};
+
 // add simple methods
 [
   'Input.Up',
@@ -166,6 +182,7 @@ XBMCSocketProto.playerOpenUrl = function(url) {
   "Input.Select",
   "Input.Info",
   "Input.ShowOSD",
+  "Input.Home",
   'JSONRPC.Version'
 ].forEach(function(method) {
   // change "Input.Left" to "inputLeft"

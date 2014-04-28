@@ -43,6 +43,7 @@ TVPageProto._setupXBMCConnection = function() {
     thisTVPage._xbmc.on('connectionfailure', function() {
       thisTVPage._connectionFailure("Connection to XBMC lost");
     });
+    thisTVPage._xbmc.on('inputrequested', thisTVPage._inputRequested.bind(thisTVPage));
   }).catch(function(err) {
     thisTVPage._connectionFailure(err.message);
   });
@@ -85,6 +86,20 @@ TVPageProto._onPlayUrlClick = function(method) {
 
   textInputView.on('formSubmit', function(url) {
     thisHomePage._playUrl(url).then(function() {
+      modal.close();
+    });
+  });
+};
+
+TVPageProto._inputRequested = function(data) {
+  var thisHomePage = this;
+  var textInputView = new TextInputView(data.title, {
+    value: data.value
+  });
+  var modal = this._pageView.createModal(textInputView);
+
+  textInputView.on('formSubmit', function(value) {
+    thisHomePage._xbmc.inputSendText(value).then(function() {
       modal.close();
     });
   });

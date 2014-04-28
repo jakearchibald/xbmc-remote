@@ -1,3 +1,9 @@
+NEXT UP:
+  Good text entry
+  Play URL
+  Now playing
+
+
 Global features:
 * Appcache
 * Add to homescreen
