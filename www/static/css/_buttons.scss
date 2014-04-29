@@ -54,9 +54,10 @@
 // buttons layout
   .button-row {
     display: flex;
-    flex-flow: row;
-    justify-content: center;
-    align-items: center;
+    @include display-flex;
+    @include flex-flow(row);
+    @include justify-content(center);
+    @include align-items(center);
     margin: 0.7rem 0;
     
     .row & {
@@ -66,11 +67,10 @@
     & .status {
       font-size: 0.9rem;
       margin-right: 0.7rem;
-      flex: 1;
+      @include flex(1);
     }
     & .btn {
-      min-width: -webkit-min-content;
-      min-width: min-content;
+      @include min-width-min-content;
       margin-right: 0.5rem;
       
       &:last-child {

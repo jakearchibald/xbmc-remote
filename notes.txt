@@ -1,12 +1,10 @@
 IOS Issues:
   Home screen:
-    Flexbox needs oldified
     Dialog is really big - maybe shouldn't be a dialog
-    Inputs are misaligned
   Main remote screen:
-    Slow press
-    SVG flicker on press
-    
+    Fix sticky hover effect
+    Make button light up on mouse/touch start, fade on end
+    Keyboard auto popup in parts?
 
 
 NEXT UP:
