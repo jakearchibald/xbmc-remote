@@ -40,13 +40,20 @@ TVPageProto._setupXBMCConnection = function() {
     thisTVPage._xbmc = new XBMCSocket(server.host, server.port);
     return thisTVPage._xbmc.ready();
   }).then(function() {
-    thisTVPage._xbmc.on('connectionfailure', function() {
-      thisTVPage._connectionFailure("Connection to XBMC lost");
-    });
-    thisTVPage._xbmc.on('inputrequested', thisTVPage._inputRequested.bind(thisTVPage));
+    thisTVPage._addXBMCListeners();
   }).catch(function(err) {
     thisTVPage._connectionFailure(err.message);
   });
+};
+
+TVPageProto._addXBMCListeners = function() {
+  var thisTVPage = this;
+
+  this._xbmc.on('connectionFailure', function() {
+    thisTVPage._connectionFailure("Connection to XBMC lost");
+  });
+
+  this._xbmc.on('inputRequested', this._inputRequested.bind(this));
 };
 
 TVPageProto._connectionFailure = function(errorMessage) {
@@ -98,10 +105,18 @@ TVPageProto._inputRequested = function(data) {
   });
   var modal = this._pageView.createModal(textInputView);
 
+  function onInputFinished() {
+    modal.close();
+  }
+
+  this._xbmc.on('inputFinished', onInputFinished);
+
+  modal.on('close', function() {
+    thisHomePage._xbmc.removeListener('inputFinished', onInputFinished);
+  });
+
   textInputView.on('formSubmit', function(value) {
-    thisHomePage._xbmc.inputSendText(value).then(function() {
-      modal.close();
-    });
+    thisHomePage._xbmc.inputSendText(value);
   });
 };
 

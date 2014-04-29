@@ -31,7 +31,7 @@ XBMCSocketProto._manageConnection = function(host, port) {
     thisXBMCSocket._socket.onmessage = thisXBMCSocket._socketListener.bind(thisXBMCSocket);
     thisXBMCSocket._socket.addEventListener('close', thisXBMCSocket._manageConnection.bind(thisXBMCSocket, host, port));
   }).catch(function(err) {
-    thisXBMCSocket.emit('connectionfailure', err);
+    thisXBMCSocket.emit('connectionFailure', err);
     throw err;
   });
 };
@@ -114,13 +114,22 @@ XBMCSocketProto._socketListener = function(event) {
   }
 };
 
+var handledEvents = [
+  'Input.OnInputRequested',
+  'Input.OnInputFinished'
+];
+
 XBMCSocketProto._handleMessage = function(data) {
-  if (data.method == 'Input.OnInputRequested') {
-    this.emit('inputrequested', data.params.data);
+  var eventName;
+
+  if (handledEvents.indexOf(data.method) != -1) {
+    eventName = data.method.replace(/^Input\.On([A-Z])/, function(fullMatch, subMatch) {
+      return subMatch.toLowerCase();
+    });
+    this.emit(eventName, data.params.data);
   }
-  else {
-    console.log(data);
-  }
+
+  console.log(data);
 };
 
 XBMCSocketProto.ready = function() {

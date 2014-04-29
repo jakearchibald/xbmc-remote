@@ -56,6 +56,7 @@ ModalProto.close = function() {
   this.el.classList.remove('open');
   this.el.classList.add('close');
   this.isOpen = false;
+  thisModal.emit('close');
 };
 
 module.exports = Modal;
