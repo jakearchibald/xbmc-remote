@@ -267,10 +267,12 @@
       pointer-events: none;
       cursor: pointer;
     }
+
+    &.allow-hover .button:hover {
+      fill: #eee;
+    }
+
     & .button {
-      &:hover {
-        fill: #eee;
-      }
       &.flash {
         @include animation(flash-white 0.2s linear both);
       }

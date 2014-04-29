@@ -4,12 +4,19 @@ var toArray = require('../utils').toArray;
 var delegateListener = require('../utils').delegateListener;
 
 function Remote() {
+  var hoverEnabled = true;
   var thisRemote = this;
   EventEmitter.call(this);
   this.el = document.querySelector('.remote-root');
 
-  this.el.addEventListener('click', delegateListener('[role=button]', function(event) {
+  var clickListener = delegateListener('[role=button]', function(event) {
+    event.preventDefault();
     var animEndEventName;
+
+    if (hoverEnabled) {
+      hoverEnabled = false;
+      thisRemote.el.classList.remove('allow-hover');
+    }
 
     if ('animation' in this.style) {
       animEndEventName = 'animationend';
@@ -28,7 +35,16 @@ function Remote() {
         this.removeEventListener(event.type, anim);
       }
     });
-  }));
+  });
+
+  this.el.addEventListener('click', clickListener);
+  this.el.addEventListener('touchstart', clickListener);
+  this.el.addEventListener('mouseenter', function() {
+    if (!hoverEnabled) {
+      hoverEnabled = false;
+      thisRemote.el.classList.add('allow-hover');
+    }
+  });
 }
 
 var RemoteProto = Remote.prototype = Object.create(EventEmitter.prototype);
