@@ -12,12 +12,12 @@
     bottom: 0;
     
     .page & {
-      display: flex;
+      @include display-flex;
     }
 
-    flex: none;
-    flex-direction: column;
-    justify-content: center;
+    @include flex(none);
+    @include flex-direction(column);
+    @include justify-content(center);
     
     &::before {
       content: '';
@@ -118,11 +118,11 @@
 
     & .row,
     & .main-action {
+      @include display-flex;
+      @include flex-direction(column);
+      @include justify-content(center);
       border-top: 1px solid #5A5A5A;
       min-height: 2.9rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       position: relative;
       padding: 0.5rem 0.7rem;
     }
@@ -277,18 +277,14 @@
 // tv-root page
   .tv-root {
     height: 100%;
-    display: flex;
-    flex-flow: column;
+    @include display-flex;
+    @include flex-flow(column);
     
     & .remote-root {
-      max-height: -webkit-max-content;
-      max-height: -moz-max-content;
-      max-height: -max-content;
+      @include max-height-max-content;
     }
     & .main-menu-root {
-      flex: 1;
-      min-height: -webkit-min-content;
-      min-height: -moz-min-content;
-      min-height: -min-content;
+      @include flex(1);
+      @include min-height-min-content;
     }
   }

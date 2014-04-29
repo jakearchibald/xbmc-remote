@@ -1,5 +1,16 @@
+IOS Issues:
+  Home screen:
+    Flexbox needs oldified
+    Dialog is really big - maybe shouldn't be a dialog
+    Inputs are misaligned
+  Main remote screen:
+    Slow press
+    SVG flicker on press
+    
+
+
 NEXT UP:
-  Good text entry
+  Mobile testing
   Play URL
   Now playing
 
