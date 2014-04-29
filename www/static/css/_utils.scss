@@ -89,6 +89,11 @@
       #{$prefix}flex-flow: $spec;
     }
   }
+  @mixin align-items($spec...) {
+    @each $prefix in -webkit-, '' {
+      #{$prefix}align-items: $spec;
+    }
+  }
   @mixin max-height-max-content {
     @each $prefix in -webkit-, -moz-, '' {
       max-height: #{$prefix}max-content;
@@ -97,5 +102,10 @@
   @mixin min-height-min-content {
     @each $prefix in -webkit-, -moz-, '' {
       min-height: #{$prefix}min-content;
+    }
+  }
+  @mixin min-width-min-content {
+    @each $prefix in -webkit-, -moz-, '' {
+      min-width: #{$prefix}min-content;
     }
   }
