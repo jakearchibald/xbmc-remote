@@ -19,6 +19,8 @@ function Remote() {
     }
 
     thisRemote.emit('buttonClick', this.dataset.method);
+    this.classList.remove('flash');
+    this.offsetWidth; // force layout to cancel any current flash anim
     this.classList.add('flash');
     this.addEventListener(animEndEventName, function anim(event) {
       if (event.target == this) {
