@@ -272,12 +272,14 @@
       fill: #eee;
     }
 
+    &.allow-hover .button.active,
+    & .button.active {
+      fill: #fff;
+    }
+
     & .button {
       &.flash {
         @include animation(flash-white 0.2s linear both);
-      }
-      &.active {
-        fill: #fff;
       }
     }
   }
