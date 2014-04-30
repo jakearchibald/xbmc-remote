@@ -43,6 +43,15 @@ function delegateListener(selector, func) {
   };
 }
 
+function leftButtonListener(func) {
+  return function(event) {
+    if ('button' in event && event.button !== 0) {
+      return;
+    }
+    func.call(this, event);
+  };
+}
+
 function defaults(opts, defaultOpts) {
   var r = Object.create(defaultOpts);
 
@@ -67,5 +76,6 @@ function strToEl(str) {
 exports.toArray = toArray;
 exports.getDelegateEl = getDelegateEl;
 exports.delegateListener = delegateListener;
+exports.leftButtonListener = leftButtonListener;
 exports.defaults = defaults;
 exports.strToEl = strToEl;

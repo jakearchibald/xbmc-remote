@@ -2,8 +2,7 @@ IOS Issues:
   Home screen:
     Dialog is really big - maybe shouldn't be a dialog
   Main remote screen:
-    Fix sticky hover effect
-    Make button light up on mouse/touch start, fade on end
+    Fix mouse down & drag out issue
     Keyboard auto popup in parts?
 
 

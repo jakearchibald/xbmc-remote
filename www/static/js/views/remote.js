@@ -2,43 +2,71 @@ var EventEmitter = require('events').EventEmitter;
 var SpinnerView = require('./spinner');
 var toArray = require('../utils').toArray;
 var delegateListener = require('../utils').delegateListener;
+var leftButtonListener = require('../utils').leftButtonListener;
 
 function Remote() {
   var hoverEnabled = true;
   var thisRemote = this;
+  var intervalID;
   EventEmitter.call(this);
   this.el = document.querySelector('.remote-root');
 
-  var clickListener = delegateListener('[role=button]', function(event) {
+  var buttonDown = delegateListener('[role=button]', leftButtonListener(function(event) {
     event.preventDefault();
-    var animEndEventName;
+    debugger;
+    var el = this;
 
     if (hoverEnabled) {
       hoverEnabled = false;
       thisRemote.el.classList.remove('allow-hover');
     }
 
-    if ('animation' in this.style) {
+    function action() {
+      thisRemote.emit('buttonClick', el.dataset.method);
+    }
+
+    action();
+
+    clearInterval(intervalID);
+    
+    if (el.dataset.repeat) {
+      intervalID = setInterval(action, 300);
+    }
+
+    el.classList.add('active');
+    el.classList.remove('flash');
+  }));
+
+  var buttonUp = delegateListener('[role=button]', leftButtonListener(function(event) {
+    event.preventDefault();
+    var animEndEventName;
+    var el = this;
+
+    clearInterval(intervalID);
+
+    if ('animation' in el.style) {
       animEndEventName = 'animationend';
     }
     else {
       animEndEventName = 'webkitAnimationEnd';
     }
 
-    thisRemote.emit('buttonClick', this.dataset.method);
-    this.classList.remove('flash');
-    this.offsetWidth; // force layout to cancel any current flash anim
-    this.classList.add('flash');
-    this.addEventListener(animEndEventName, function anim(event) {
-      if (event.target == this) {
-        this.classList.remove('flash');
-        this.removeEventListener(event.type, anim);
+    el.classList.remove('active');
+    el.classList.add('flash');
+
+    el.addEventListener(animEndEventName, function anim(event) {
+      if (event.target == el) {
+        el.classList.remove('flash');
+        el.removeEventListener(event.type, anim);
       }
     });
-  });
+  }));
 
-  this.el.addEventListener('click', clickListener);
-  this.el.addEventListener('touchstart', clickListener);
+  this.el.addEventListener('mousedown', buttonDown);
+  this.el.addEventListener('touchstart', buttonDown);
+  this.el.addEventListener('mouseup', buttonUp);
+  this.el.addEventListener('touchend', buttonUp);
+
   this.el.addEventListener('mouseenter', function() {
     if (!hoverEnabled) {
       hoverEnabled = false;
