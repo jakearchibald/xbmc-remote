@@ -8,13 +8,13 @@ function Remote() {
   var hoverEnabled = true;
   var thisRemote = this;
   var intervalID;
+  var currentButton;
   EventEmitter.call(this);
   this.el = document.querySelector('.remote-root');
 
   var buttonDown = delegateListener('[role=button]', leftButtonListener(function(event) {
     event.preventDefault();
-    debugger;
-    var el = this;
+    currentButton = this;
 
     if (hoverEnabled) {
       hoverEnabled = false;
@@ -22,50 +22,55 @@ function Remote() {
     }
 
     function action() {
-      thisRemote.emit('buttonClick', el.dataset.method);
+      thisRemote.emit('buttonClick', currentButton.dataset.method);
     }
 
     action();
 
     clearInterval(intervalID);
     
-    if (el.dataset.repeat) {
-      intervalID = setInterval(action, 300);
+    if (currentButton.dataset.repeat) {
+      intervalID = setTimeout(function() {
+        intervalID = setInterval(action, 200);
+      }, 400);
     }
 
-    el.classList.add('active');
-    el.classList.remove('flash');
+    currentButton.classList.add('active');
+    currentButton.classList.remove('flash');
+
+    window.addEventListener('mouseup', buttonUp);
+    window.addEventListener('touchend', buttonUp);
   }));
 
-  var buttonUp = delegateListener('[role=button]', leftButtonListener(function(event) {
+  var buttonUp = leftButtonListener(function(event) {
     event.preventDefault();
     var animEndEventName;
-    var el = this;
 
     clearInterval(intervalID);
 
-    if ('animation' in el.style) {
+    if ('animation' in currentButton.style) {
       animEndEventName = 'animationend';
     }
     else {
       animEndEventName = 'webkitAnimationEnd';
     }
 
-    el.classList.remove('active');
-    el.classList.add('flash');
+    currentButton.classList.remove('active');
+    currentButton.classList.add('flash');
 
-    el.addEventListener(animEndEventName, function anim(event) {
-      if (event.target == el) {
-        el.classList.remove('flash');
-        el.removeEventListener(event.type, anim);
+    currentButton.addEventListener(animEndEventName, function anim(event) {
+      if (event.target == currentButton) {
+        currentButton.classList.remove('flash');
+        currentButton.removeEventListener(event.type, anim);
       }
     });
-  }));
+
+    window.removeEventListener('mouseup', buttonUp);
+    window.removeEventListener('touchend', buttonUp);
+  });
 
   this.el.addEventListener('mousedown', buttonDown);
   this.el.addEventListener('touchstart', buttonDown);
-  this.el.addEventListener('mouseup', buttonUp);
-  this.el.addEventListener('touchend', buttonUp);
 
   this.el.addEventListener('mouseenter', function() {
     if (!hoverEnabled) {
