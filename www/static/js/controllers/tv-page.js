@@ -42,13 +42,13 @@ TVPageProto._setupXBMCConnection = function() {
     thisTVPage._xbmc = new XBMCSocket(server.host, server.port);
     return thisTVPage._xbmc.ready();
   }).then(function() {
-    thisTVPage._addXBMCListeners();
+    thisTVPage._xbmcConnectionStartup();
   }).catch(function(err) {
     thisTVPage._connectionFailure(err.message);
   });
 };
 
-TVPageProto._addXBMCListeners = function() {
+TVPageProto._xbmcConnectionStartup = function() {
   var thisTVPage = this;
 
   this._xbmc.on('connectionFailure', function() {
@@ -56,9 +56,10 @@ TVPageProto._addXBMCListeners = function() {
   });
 
   this._xbmc.on('inputRequested', this._inputRequested.bind(this));
-  // TODO: should check to see if something's already playing
+  
   this._xbmc.on('play', this._onPlay.bind(this));
   this._xbmc.on('stop', this._onStop.bind(this));
+  this._xbmc.playerGetItem().then(this._onPlay.bind(this));
 };
 
 TVPageProto._connectionFailure = function(errorMessage) {

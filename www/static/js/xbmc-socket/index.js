@@ -91,7 +91,7 @@ XBMCSocketProto._socketListener = function(event) {
   }
 
   if (!('id' in data)) {
-    this._handleMessage(data);
+    this._handleEvent(data);
     return;
   }
 
@@ -110,7 +110,7 @@ XBMCSocketProto._socketListener = function(event) {
     resolver[0](data.result);
   }
   else {
-    resolver[1](Error(data.error));
+    resolver[1](data.error);
   }
 };
 
@@ -123,7 +123,7 @@ var handledEvents = [
   'Player.OnStop'
 ];
 
-XBMCSocketProto._handleMessage = function(data) {
+XBMCSocketProto._handleEvent = function(data) {
   var eventName;
 
   if (handledEvents.indexOf(data.method) != -1) {
@@ -177,6 +177,28 @@ XBMCSocketProto.playerOpenUrl = function(url) {
   });
 };
 
+XBMCSocketProto.playerGetItem = function(playerId) {
+  var thisXBMCSocket = this;
+  
+  return Promise.resolve(playerId).then(function(playerId) {
+    if (typeof playerId != 'number') {
+      throw Error('No player ID');
+    }
+    return playerId;
+  }).catch(function() {
+    return thisXBMCSocket.playerGetActivePlayers().then(function(data) {
+      if (data.length === 0) {
+        throw Error('No active player');
+      }
+      return data[0].playerid;
+    });
+  }).then(function(playerId) {
+    return thisXBMCSocket._apiCall("Player.GetItem", {
+      playerid: playerId
+    });
+  });
+};
+
 XBMCSocketProto.inputSendText = function(text) {
   return this._apiCall("Input.SendText", {
     text: text,
@@ -196,7 +218,8 @@ XBMCSocketProto.inputSendText = function(text) {
   "Input.Info",
   "Input.ShowOSD",
   "Input.Home",
-  'JSONRPC.Version'
+  'JSONRPC.Version',
+  'Player.GetActivePlayers'
 ].forEach(function(method) {
   // change "Input.Left" to "inputLeft"
   var jsMethodName = method.replace(/(?:^|\.)[A-Z]+/g, function(str, pos) {
