@@ -7,6 +7,7 @@ var RemoteView = require('../views/remote');
 var MainMenuView = require('../views/main-menu');
 var TextInputView = require('../views/text-input');
 var AlertView = require('../views/alert');
+var NowPlayingView = require('../views/now-playing');
 
 function TVPage() {
   var thisTVPage = this;
@@ -21,6 +22,7 @@ function TVPage() {
 
   this._remoteView = new RemoteView();
   this._mainMenuView = new MainMenuView();
+  this._nowPlayingView = new NowPlayingView();
 
   this._remoteView.on('buttonClick', this._onRemoteButtonClick.bind(this));
   this._mainMenuView.on('playUrlClick', this._onPlayUrlClick.bind(this));
@@ -54,6 +56,9 @@ TVPageProto._addXBMCListeners = function() {
   });
 
   this._xbmc.on('inputRequested', this._inputRequested.bind(this));
+  // TODO: should check to see if something's already playing
+  this._xbmc.on('play', this._onPlay.bind(this));
+  this._xbmc.on('stop', this._onStop.bind(this));
 };
 
 TVPageProto._connectionFailure = function(errorMessage) {
@@ -104,6 +109,8 @@ TVPageProto._inputRequested = function(data) {
     value: data.value
   });
   var modal = this._pageView.createModal(textInputView);
+  var input = document.querySelector('#text-input');
+  input.setSelectionRange(0, input.value.length);
 
   function onInputFinished() {
     modal.close();
@@ -118,6 +125,14 @@ TVPageProto._inputRequested = function(data) {
   textInputView.on('formSubmit', function(value) {
     thisHomePage._xbmc.inputSendText(value);
   });
+};
+
+TVPageProto._onPlay = function(data) {
+  this._nowPlayingView.show();
+};
+
+TVPageProto._onStop = function(data) {
+  this._nowPlayingView.hide();
 };
 
 module.exports = TVPage;

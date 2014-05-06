@@ -2,12 +2,9 @@ IOS Issues:
   Home screen:
     Dialog is really big - maybe shouldn't be a dialog
   Main remote screen:
-    Fix mouse down & drag out issue
-    Keyboard auto popup in parts?
 
 
 NEXT UP:
-  Mobile testing
   Play URL
   Now playing
 

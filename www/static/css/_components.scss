@@ -297,4 +297,33 @@
       @include flex(1);
       @include min-height-min-content;
     }
+    & .now-playing-root {
+      // TODO: apply a better min height
+      min-height: 200px;
+    }
+  }
+
+// now playing
+  .now-playing-root {
+    position: relative;
+    pointer-events: none;
+    
+    & > .inner {
+      opacity: 0;
+      @include transform(translate(50%, 0) translateZ(0));
+    }
+    &.active {
+      pointer-events: auto;
+
+      & > .inner {
+        opacity: 1;
+        @include transform(translateZ(0));
+        @include transition(all 0.4s $easeOutQuint);
+      }
+    }
+    &.out > .inner {
+      opacity: 0;
+      @include transform(translate(-50%, 0) translateZ(0));
+      @include transition(all 0.2s $easeInQuart);
+    }
   }

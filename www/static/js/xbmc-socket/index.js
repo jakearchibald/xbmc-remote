@@ -114,16 +114,20 @@ XBMCSocketProto._socketListener = function(event) {
   }
 };
 
+
+// {"jsonrpc":"2.0","method":"Player.OnPlay","params":{"data":{"item":{"id":6,"type":"movie"},"player":{"playerid":1,"speed":1}},"sender":"xbmc"}}
 var handledEvents = [
   'Input.OnInputRequested',
-  'Input.OnInputFinished'
+  'Input.OnInputFinished',
+  'Player.OnPlay',
+  'Player.OnStop'
 ];
 
 XBMCSocketProto._handleMessage = function(data) {
   var eventName;
 
   if (handledEvents.indexOf(data.method) != -1) {
-    eventName = data.method.replace(/^Input\.On([A-Z])/, function(fullMatch, subMatch) {
+    eventName = data.method.replace(/^[^\.]+\.On([A-Z])/, function(fullMatch, subMatch) {
       return subMatch.toLowerCase();
     });
     this.emit(eventName, data.params.data);

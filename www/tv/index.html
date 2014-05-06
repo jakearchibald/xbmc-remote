@@ -26,7 +26,7 @@
             
             <svg viewBox="0 0 100 100" preserveAspectRatio="xMinYMin">
               <circle cx="14" cy="14" r="17" class="mask"/>
-              <circle cx="14" cy="14" r="14" class="button" role="button" />
+              <circle class="button" role="button" tabindex="0" data-method="inputHome" cx="14" cy="14" r="14" />
               <svg width="20" height="20" x="4" y="4" viewBox="-192 -384 2048 2048">
                 <path class="icon" d="M1408 736v480q0 26-19 45t-45 19h-384v-384h-256v384h-384q-26 0-45-19t-19-45v-480q0-1 .5-3t.5-3l575-474 575 474q1 2 1 6zm223-69l-62 74q-8 9-21 11h-3q-13 0-21-7l-692-577-692 577q-12 8-24 7-13-2-21-11l-62-74q-8-10-7-23.5t11-21.5l719-599q32-26 76-26t76 26l244 204v-195q0-14 9-23t23-9h192q14 0 23 9t9 23v408l219 182q10 8 11 21.5t-7 23.5z"/>
               </svg>
@@ -76,7 +76,12 @@
       <ul class="remote-root root">
         <li><button data-method="inputShowOSD">ShowOSD</button></li>
       </ul>-->
-      <div class="now-playing-root root">Todo: NOW PLAYING</div>
+      <div class="now-playing-root root">
+        <div class="inner">
+          <div class="poster"></div>
+          <div><button class="stop">Stop</button></div>
+        </div>
+      </div>
       <ul class="main-menu-root root">
         <li><button>TODO: Video</button></li>
         <li><button>TODO: Music</button></li>
