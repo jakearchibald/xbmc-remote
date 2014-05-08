@@ -42,7 +42,10 @@ HomePageProto._editServer = function(id) {
       oldNickname: id,
       nickname: id,
       host: server.host,
-      port: server.port
+      port: server.port,
+      httpPort: server.httpPort,
+      username: server.username,
+      password: server.password
     };
   }
   var serverEditView = new ServerEditView(initialVals);
@@ -56,15 +59,14 @@ HomePageProto._editServer = function(id) {
         throw Error("Server with that name already exists");
       }
       serverEditView.setStatus('Connecting…');
-      xbmc = new XBMCSocket(data.host, data.port);
-      window.xbmc = xbmc;
+      var xbmc = new XBMCSocket(data.host, data.port, data.httpPort, data.username, data.password);
       return xbmc.ready();
     }).then(function() {
       if (data.oldNickname) {
         thisHomePage._serverStorage.delete(data.oldNickname);
       }
 
-      thisHomePage._serverStorage.set(data.nickname, data.host, data.port);
+      thisHomePage._serverStorage.set(data.nickname, data.host, data.port, data.httpPort, data.username, data.password);
       serverEditView.setStatus('Saved!');
       thisHomePage._homeView.updateServers(thisHomePage._serverStorage.get());
       modal.close();

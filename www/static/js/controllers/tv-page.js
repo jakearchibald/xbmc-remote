@@ -39,7 +39,7 @@ TVPageProto._setupXBMCConnection = function() {
 
   Promise.resolve().then(function() {
     if (!server) { throw Error("Server '" + serverId + "' not a stored server"); }
-    thisTVPage._xbmc = new XBMCSocket(server.host, server.port);
+    thisTVPage._xbmc = new XBMCSocket(server.host, server.port, server.httpPort, server.username, server.password);
     return thisTVPage._xbmc.ready();
   }).then(function() {
     thisTVPage._xbmcConnectionStartup();

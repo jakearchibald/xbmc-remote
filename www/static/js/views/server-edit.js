@@ -8,7 +8,10 @@ var serverEditFields = [
   'oldNickname',
   'nickname',
   'host',
-  'port'
+  'port',
+  'httpPort',
+  'username',
+  'password'
 ];
 
 function ServerEdit(initialVals) {

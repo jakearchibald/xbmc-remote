@@ -3,14 +3,28 @@ var EventEmitter = require('events').EventEmitter;
 
 var defaults = require('../utils.js').defaults;
 
-function XBMCSocket(host, port) {
+function XBMCSocket(host, port, httpPort, httpUsername, httpPassword) {
   var xbmcSocket = this;
   var timeout = 3000;
 
   EventEmitter.call(this);
 
+  this._host = host;
+  this._port = port;
+  this._httpBase = 'http://';
+
+  if (httpUsername) {
+    this._httpBase += httpUsername;
+    if (httpPassword) {
+      this._httpBase += ':' + httpPassword;
+    }
+    this._httpBase += '@';
+  }
+
+  this._httpBase += host + ':' + httpPort + '/';
+
   this._pending = {};
-  this._manageConnection(host, port);
+  this._manageConnection();
 }
 
 var XBMCSocketProto = XBMCSocket.prototype = Object.create(EventEmitter.prototype);
@@ -22,21 +36,21 @@ XBMCSocketProto._pending = null;
 // ready promise
 XBMCSocketProto._ready = null;
 
-XBMCSocketProto._manageConnection = function(host, port) {
+XBMCSocketProto._manageConnection = function() {
   var thisXBMCSocket = this;
 
-  this._queue = this._connectSocket(host, port, {
+  this._queue = this._connectSocket({
     retryAttempts: 5
   }).then(function() {
     thisXBMCSocket._socket.onmessage = thisXBMCSocket._socketListener.bind(thisXBMCSocket);
-    thisXBMCSocket._socket.addEventListener('close', thisXBMCSocket._manageConnection.bind(thisXBMCSocket, host, port));
+    thisXBMCSocket._socket.addEventListener('close', thisXBMCSocket._manageConnection.bind(thisXBMCSocket));
   }).catch(function(err) {
     thisXBMCSocket.emit('connectionFailure', err);
     throw err;
   });
 };
 
-XBMCSocketProto._connectSocket = function(host, port, opts) {
+XBMCSocketProto._connectSocket = function(opts) {
   var thisXBMCSocket = this;
   var waitReconnect = 500;
 
@@ -45,7 +59,7 @@ XBMCSocketProto._connectSocket = function(host, port, opts) {
   });
 
   return new Promise(function(resolve, reject) {
-    thisXBMCSocket._socket = new WebSocket('ws://' + host + ':' + port + '/jsonrpc');
+    thisXBMCSocket._socket = new WebSocket('ws://' + thisXBMCSocket._host + ':' + thisXBMCSocket._port + '/jsonrpc');
 
     function removeListeners() {
       thisXBMCSocket._socket.removeEventListener('close', onClose);
@@ -66,7 +80,7 @@ XBMCSocketProto._connectSocket = function(host, port, opts) {
         setTimeout(function() {
           opts.retryAttempts--;
           resolve(
-            thisXBMCSocket._connectSocket(host, port, opts)
+            thisXBMCSocket._connectSocket(opts)
           );
         }, waitReconnect);
       }
@@ -115,7 +129,6 @@ XBMCSocketProto._socketListener = function(event) {
 };
 
 
-// {"jsonrpc":"2.0","method":"Player.OnPlay","params":{"data":{"item":{"id":6,"type":"movie"},"player":{"playerid":1,"speed":1}},"sender":"xbmc"}}
 var handledEvents = [
   'Input.OnInputRequested',
   'Input.OnInputFinished',
@@ -145,6 +158,23 @@ XBMCSocketProto.ready = function() {
     if (response.version.major < 6) {
       throw Error("Only XBMC 12 (Frodo) & onwards supported");
     }
+  }).then(function() {
+    // Need to test the HTTP port stuff, unfortunately lack of CORS means I need
+    // to get the url of an image to test, since they have load & error events.
+    // I'm relying on the user having webinterface.default, I'm betting this 
+    // assumption will come back to bite me.
+    return thisXBMCSocket.addonsGetAddonDetails('webinterface.default', ['thumbnail']);
+  }).then(function(data) {
+    var imgUrl = thisXBMCSocket.toImageUrl(data.addon.thumbnail);
+
+    return new Promise(function(resolve, reject) {
+      var img = new Image();
+      img.onload = resolve;
+      img.onerror = function() {
+        reject(Error("Couldn't connect to HTTP server, check HTTP port, username & password"));
+      };
+      img.src = imgUrl;
+    });
   });
 };
 
@@ -204,6 +234,24 @@ XBMCSocketProto.inputSendText = function(text) {
     text: text,
     done: true
   });
+};
+
+XBMCSocketProto.videoLibraryGetMovieDetails = function(id, properties) {
+  return this._apiCall("VideoLibrary.GetMovieDetails", {
+    movieid: id,
+    properties: properties
+  });
+};
+
+XBMCSocketProto.addonsGetAddonDetails = function(id, properties) {
+  return this._apiCall("Addons.GetAddonDetails", {
+    addonid: id,
+    properties: properties
+  });
+};
+
+XBMCSocketProto.toImageUrl = function(id) {
+  return this._httpBase + 'image/' + encodeURIComponent(id);
 };
 
 // add simple methods

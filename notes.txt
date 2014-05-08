@@ -5,6 +5,7 @@ IOS Issues:
 
 
 NEXT UP:
+  Edit/delete on menu
   Play URL
   Now playing
 

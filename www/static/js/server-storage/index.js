@@ -6,10 +6,13 @@ function ServerStorage() {
 
 var ServerStorageProto = ServerStorage.prototype = Object.create(SimpleJSONStorage.prototype);
 
-ServerStorageProto.set = function(name, host, port) {
+ServerStorageProto.set = function(name, host, port, httpPort, username, password) {
   this._obj[name] = {
     host: host,
-    port: Number(port)
+    port: Number(port),
+    httpPort: Number(httpPort),
+    username: username,
+    password: password
   };
   this._save();
 };
