@@ -13,6 +13,12 @@ body {
   line-height: 1.4;
 }
 
+h1 {
+  font-size: inherit;
+  font-weight: inherit;
+  margin: 0;
+}
+
 // button-like
   [role=button],
   label {

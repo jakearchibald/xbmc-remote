@@ -37,6 +37,8 @@ HomePageProto._editServer = function(id) {
   var thisHomePage = this;
   var server = this._serverStorage.get()[id];
   var initialVals;
+  var heading = "Add server";
+  
   if (id) {
     initialVals = {
       oldNickname: id,
@@ -47,9 +49,11 @@ HomePageProto._editServer = function(id) {
       username: server.username,
       password: server.password
     };
+    heading = "Edit server";
   }
+
   var serverEditView = new ServerEditView(initialVals);
-  var modal = this._pageView.createModal(serverEditView);
+  var modal = this._pageView.createModal(serverEditView, {heading: heading});
 
   serverEditView.on('formSubmit', function(data) {
     var xbmc;

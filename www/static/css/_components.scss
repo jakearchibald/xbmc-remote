@@ -67,25 +67,32 @@
     }
 
     & .close-btn {
-      position: absolute;
-      top: 0.9rem;
-      right: 0.7rem;
+      margin: 0 0 0 auto;
+      width: 1rem;
+      position: relative;
       
       &:focus {
         outline: 0;
       }
 
       & svg {
-        width: 1rem;
-        height: 1rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
       }
       & path {
         fill: #fff;
       }
     }
 
-    & .content {
+    & .content { // only used by "alert"
       padding: 0 0.7rem;
+    }
+
+    & .modal-heading {
+      @include display-flex;
     }
   }
 
