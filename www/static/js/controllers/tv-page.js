@@ -129,7 +129,25 @@ TVPageProto._inputRequested = function(data) {
 };
 
 TVPageProto._onPlay = function(data) {
-  this._nowPlayingView.show();
+  var thisHomePage = this;
+  if (data.item.type == 'movie') {
+    this._xbmc.videoLibraryGetMovieDetails(data.item.id, [
+      'title',
+      'thumbnail'
+    ]).then(function(data) {
+      var opts = {
+        title: data.moviedetails.title
+      };
+
+      if (data.moviedetails.thumbnail) {
+        opts.thumbnail = thisHomePage._xbmc.toImageUrl(data.moviedetails.thumbnail);
+      }
+
+      thisHomePage._nowPlayingView.show(opts);
+    }).catch(function(err) {
+      console.log(err);
+    });
+  }
 };
 
 TVPageProto._onStop = function(data) {

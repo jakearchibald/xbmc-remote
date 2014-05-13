@@ -5,12 +5,20 @@ function NowPlaying() {
   EventEmitter.call(this);
   this.el = document.querySelector('.now-playing-root');
   this.poster = this.el.querySelector('.poster');
-  // YOU ARE HERE: add param for stop button
+  // YOU ARE HERE: add event for stop button
 }
 
 var NowPlayingProto = NowPlaying.prototype = Object.create(EventEmitter.prototype);
 
-NowPlayingProto.show = function() {
+NowPlayingProto.show = function(opts) {
+  this.poster.innerHTML = '';
+
+  if (opts.thumbnail) {
+    var img = new Image();
+    this.poster.appendChild(img);
+    img.src = opts.thumbnail;
+  }
+  
   // TODO: add params for stuff to display
   this.el.classList.remove('out');
   this.el.classList.remove('active');
