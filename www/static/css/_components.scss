@@ -3,6 +3,54 @@
     height: 100%;
   }
 
+// sub page
+  .sub-page-root {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+
+    @include display-flex;
+    @include flex-direction(column);
+    
+    & .sub-page-body {
+      overflow: auto;
+      @include flex(1);
+    }
+
+    & .sub-page-heading {
+      @include display-flex;
+      
+      & h1 {
+        text-align: center;
+        margin: 0 1.5rem 0 0.5rem;
+        @include flex(1);
+      }
+    }
+
+    & .back-btn {
+      width: 1rem;
+      position: relative;
+      
+      &:focus {
+        outline: 0;
+      }
+
+      & svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+      }
+      & path {
+        fill: #fff;
+      }
+    }
+  }
+
 // modal
   .modal-root {
     position: fixed;
@@ -10,11 +58,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    
-    .page & {
-      @include display-flex;
-    }
 
+    @include display-flex;
     @include flex(none);
     @include flex-direction(column);
     @include justify-content(center);

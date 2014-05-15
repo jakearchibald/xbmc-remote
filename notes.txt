@@ -1,14 +1,19 @@
+// in page controller
+var serverEdit = new ServerEdit(); // controller
+currentPageView.openSubView(serverEdit.view);
+serverEdit.on('close', function() {
+  currentPageVew.closeSubView();
+});
+
 IOS Issues:
   Home screen:
     Dialog is really big - maybe shouldn't be a dialog
   Main remote screen:
 
-
 NEXT UP:
   Edit/delete on menu
   Play URL
   Now playing
-
 
 Global features:
 * Appcache

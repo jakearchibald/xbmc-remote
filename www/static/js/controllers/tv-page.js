@@ -3,6 +3,7 @@ var Promise = require('rsvp').Promise;
 var Page = require('./page');
 var ServerStorage = require('../server-storage');
 var XBMCSocket = require('../xbmc-socket');
+var DefaultPageView = require('../views/default-page');
 var RemoteView = require('../views/remote');
 var MainMenuView = require('../views/main-menu');
 var TextInputView = require('../views/text-input');
@@ -14,12 +15,13 @@ function TVPage() {
   var serverId = window.location.hash.slice(1).split('/')[0];
   var xbmc;
 
-  this._server = new ServerStorage().get()[serverId];
-
   Page.call(this);
+
+  this._server = new ServerStorage().get()[serverId];
 
   if (!serverId) { window.location.href = "/xbmc-remote/"; }
 
+  this._pageView = new DefaultPageView();
   this._remoteView = new RemoteView();
   this._mainMenuView = new MainMenuView();
   this._nowPlayingView = new NowPlayingView();

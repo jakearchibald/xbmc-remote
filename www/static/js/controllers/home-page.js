@@ -1,5 +1,6 @@
 var Page = require('./page');
 var ServerStorage = require('../server-storage');
+var DefaultPageView = require('../views/default-page');
 var HomeView = require('../views/home');
 var ServerEditView = require('../views/server-edit');
 var XBMCSocket = require('../xbmc-socket');
@@ -8,6 +9,7 @@ var Promise = require('rsvp').Promise;
 function HomePage() {
   var thisHomePage = this;
   Page.call(this);
+  this._pageView = new DefaultPageView();
   this._homeView = new HomeView();
   this._serverStorage = new ServerStorage();
 
@@ -53,7 +55,7 @@ HomePageProto._editServer = function(id) {
   }
 
   var serverEditView = new ServerEditView(initialVals);
-  var modal = this._pageView.createModal(serverEditView, {heading: heading});
+  var modal = this._pageView.createSubPage(serverEditView, {heading: heading});
 
   serverEditView.on('formSubmit', function(data) {
     var xbmc;
@@ -73,7 +75,8 @@ HomePageProto._editServer = function(id) {
       thisHomePage._serverStorage.set(data.nickname, data.host, data.port, data.httpPort, data.username, data.password);
       serverEditView.setStatus('Saved!');
       thisHomePage._homeView.updateServers(thisHomePage._serverStorage.get());
-      modal.close();
+      // TODO
+      //modal.close();
     }).catch(function(err) {
       serverEditView.setStatus(err.message);
     });

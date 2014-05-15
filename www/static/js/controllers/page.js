@@ -1,8 +1,6 @@
 var PageView = require('../views/page.js');
 
-function Page() {
-  this._pageView = new PageView();
-}
+function Page() {}
 
 var PageProto = Page.prototype;
 
