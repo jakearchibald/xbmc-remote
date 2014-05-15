@@ -26,6 +26,7 @@ PageProto.createModal = function(view, opts) {
 };
 
 PageProto.createSubPage = function(view, opts) {
+  var thisPage = this;
   var SubPage = require('./sub-page');
 
   if (this._subPage) {
@@ -35,15 +36,27 @@ PageProto.createSubPage = function(view, opts) {
 
   var subPage = new SubPage(opts);
   this._subPage = subPage;
+
+  subPage.on('backClick', function() {
+    thisPage.closeSubPage();
+  });
+
   subPage.body.appendChild(view.el);
   document.body.appendChild(subPage.el);
+  this.el.classList.remove('no-sub-page');
   this.el.classList.add('has-sub-page');
   subPage.el.classList.add('active');
   return subPage;
 };
 
 PageProto.closeSubPage = function() {
-  
+  var subPage = this._subPage;
+  this._subPage = null;
+  subPage.removeAllListeners();
+  subPage.el.classList.remove('active');
+  subPage.el.classList.add('inactive');
+  this.el.classList.remove('has-sub-page');
+  this.el.classList.add('no-sub-page');
 };
 
 module.exports = Page;

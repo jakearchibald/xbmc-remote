@@ -14,7 +14,7 @@ function SubPage(opts) {
   this.body = this.el.querySelector('.sub-page-body');
 
   this.el.querySelector('.back-btn').addEventListener('click', function(event) {
-    // TODO: make the back button work
+    thisSubPage.emit('backClick');
     event.preventDefault();
   });
 }
