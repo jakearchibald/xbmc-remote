@@ -50,6 +50,7 @@ PageProto.createSubPage = function(view, opts) {
 };
 
 PageProto.closeSubPage = function() {
+  var thisPage = this;
   var subPage = this._subPage;
   this._subPage = null;
   subPage.removeAllListeners();
@@ -57,6 +58,17 @@ PageProto.closeSubPage = function() {
   subPage.el.classList.add('inactive');
   this.el.classList.remove('has-sub-page');
   this.el.classList.add('no-sub-page');
+
+  function closeListener(event) {
+    if (event.target == this) {
+      document.body.removeChild(subPage.el);
+      // TODO: cross browser this
+      this.removeEventListener('webkitAnimationEnd', closeListener);
+    }
+  }
+
+  // TODO: and this
+  this.el.addEventListener('webkitAnimationEnd', closeListener);
 };
 
 module.exports = Page;

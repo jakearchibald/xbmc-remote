@@ -75,8 +75,7 @@ HomePageProto._editServer = function(id) {
       thisHomePage._serverStorage.set(data.nickname, data.host, data.port, data.httpPort, data.username, data.password);
       serverEditView.setStatus('Saved!');
       thisHomePage._homeView.updateServers(thisHomePage._serverStorage.get());
-      // TODO
-      //modal.close();
+      thisHomePage._pageView.closeSubPage();
     }).catch(function(err) {
       serverEditView.setStatus(err.message);
     });
