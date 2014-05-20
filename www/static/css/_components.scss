@@ -211,17 +211,18 @@
     }
     
     & > .item {
-      display: block;
+      @include display-flex;
+      @include align-items(center);
       list-style: none;
+      border-top: 1px solid #5A5A5A;
+      min-height: 3.9rem;
+      position: relative;
     }
     & .main-action {
       display: block;
     }
     & .sub-actions {
-      display: none;
-    }
-    &.show-sub .sub-actions {
-      display: block;
+      @include max-height-min-content;
     }
 
     button.main-action {
@@ -230,12 +231,10 @@
 
     & .row,
     & .main-action {
+      @include flex(1);
       @include display-flex;
       @include flex-direction(column);
       @include justify-content(center);
-      border-top: 1px solid #5A5A5A;
-      min-height: 2.9rem;
-      position: relative;
       padding: 0.5rem 0.7rem;
     }
 
@@ -252,6 +251,7 @@
         right: 0;
         background: #fff;
         opacity: 0;
+        pointer-events: none;
         @include transform(translateZ(0));
         @include transition(opacity 0.2s linear);
       }

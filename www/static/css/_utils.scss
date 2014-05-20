@@ -99,6 +99,11 @@
       max-height: #{$prefix}max-content;
     }
   }
+  @mixin max-height-min-content {
+    @each $prefix in -webkit-, -moz-, '' {
+      max-height: #{$prefix}max-content;
+    }
+  }
   @mixin min-height-min-content {
     @each $prefix in -webkit-, -moz-, '' {
       min-height: #{$prefix}min-content;

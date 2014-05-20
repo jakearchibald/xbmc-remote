@@ -1,9 +1,6 @@
-// in page controller
-var serverEdit = new ServerEdit(); // controller
-currentPageView.openSubView(serverEdit.view);
-serverEdit.on('close', function() {
-  currentPageVew.closeSubView();
-});
+Assets needed:
+  Back icon (for subpages)
+  Edit & delete icons for server list
 
 IOS Issues:
   Home screen:
@@ -12,6 +9,8 @@ IOS Issues:
 
 NEXT UP:
   Edit/delete on menu
+  Push state on sub pages
+  Scrollability on home page
   Play URL
   Now playing
 

@@ -2,43 +2,64 @@
   <form class="server-form">
     <input type="hidden" name="oldNickname" value="">
     <div class="menu-list">
-      <label class="main-action">
-        <div class="label">Nickname:</div>
-        <input type="text" name="nickname" placeholder="eg Living Room" required>
-      </label>
-      <label class="main-action">
-        <div class="label">Host:</div>
-        <input type="text" name="host" required>
-      </label>
-      <label class="main-action">
-        <div class="label">EventServer Port:</div>
-        <input type="number" name="port" pattern="[0-9]*" value="9090" required>
-      </label>
-      <label class="main-action">
-        <div class="label">HTTP Port:</div>
-        <input type="number" name="httpPort" pattern="[0-9]*" value="80" required>
-      </label>
-      <label class="main-action">
-        <div class="label">Username:</div>
-        <input type="text" name="username">
-      </label>
-      <label class="main-action">
-        <div class="label">Password:</div>
-        <input type="text" name="password">
-      </label>
-      <div class="row">
-        <div class="button-row">
-          <div class="status"></div>
-          <button class="btn btn1 has-icon">
-            {{#if isEdit}}
-              Save
-            {{else}}
-              <svg viewBox="0 0 25.143 25.143" class="icon">
-                <path d="M25.143 10.857v3.429q0 .714-.5 1.214t-1.214.5h-7.429v7.429q0 .714-.5 1.214t-1.214.5h-3.429q-.714 0-1.214-.5t-.5-1.214v-7.429h-7.429q-.714 0-1.214-.5t-.5-1.214v-3.429q0-.714.5-1.214t1.214-.5h7.429v-7.429q0-.714.5-1.214t1.214-.5h3.429q.714 0 1.214.5t.5 1.214v7.429h7.429q.714 0 1.214.5t.5 1.214z"/>
-              </svg>
-              Add
-            {{/if}}
-          </button>
+
+      <div class="item">
+        <label class="main-action">
+          <div class="label">Nickname:</div>
+          <input type="text" name="nickname" placeholder="eg Living Room" required>
+        </label>
+      </div>
+
+      <div class="item">
+        <label class="main-action">
+          <div class="label">Host:</div>
+          <input type="text" name="host" required>
+        </label>
+      </div>
+
+      <div class="item">
+        <label class="main-action">
+          <div class="label">EventServer Port:</div>
+          <input type="number" name="port" pattern="[0-9]*" value="9090" required>
+        </label>
+      </div>
+
+      <div class="item">
+        <label class="main-action">
+          <div class="label">HTTP Port:</div>
+          <input type="number" name="httpPort" pattern="[0-9]*" value="80" required>
+        </label>
+      </div>
+
+      <div class="item">
+        <label class="main-action">
+          <div class="label">Username:</div>
+          <input type="text" name="username">
+        </label>
+      </div>
+
+      <div class="item">
+        <label class="main-action">
+          <div class="label">Password:</div>
+          <input type="text" name="password">
+        </label>
+      </div>
+
+      <div class="item">
+        <div class="row">
+          <div class="button-row">
+            <div class="status"></div>
+            <button class="btn btn1 has-icon">
+              {{#if isEdit}}
+                Save
+              {{else}}
+                <svg viewBox="0 0 25.143 25.143" class="icon">
+                  <path d="M25.143 10.857v3.429q0 .714-.5 1.214t-1.214.5h-7.429v7.429q0 .714-.5 1.214t-1.214.5h-3.429q-.714 0-1.214-.5t-.5-1.214v-7.429h-7.429q-.714 0-1.214-.5t-.5-1.214v-3.429q0-.714.5-1.214t1.214-.5h7.429v-7.429q0-.714.5-1.214t1.214-.5h3.429q.714 0 1.214.5t.5 1.214v7.429h7.429q.714 0 1.214.5t.5 1.214z"/>
+                </svg>
+                Add
+              {{/if}}
+            </button>
+          </div>
         </div>
       </div>
     </div>
