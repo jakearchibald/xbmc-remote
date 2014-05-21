@@ -160,10 +160,34 @@ XBMCSocketProto.ready = function() {
     }
   }).then(function() {
     // Need to test the HTTP port stuff, unfortunately lack of CORS means I need
-    // to get the url of an image to test, since they have load & error events.
+    // to do a load of hacks. First I make an iframe to do the http auth stuff
+    // then check the browser retains those details for downloading an image.
     // I'm relying on the user having webinterface.default, I'm betting this 
     // assumption will come back to bite me.
+    // 
+    // If XBMC starts serving CORS headers for its HTTP API, I can get rid of this.
     return thisXBMCSocket.addonsGetAddonDetails('webinterface.default', ['thumbnail']);
+  }).then(function(data) {
+    if (/iP(hone|ad)/.test(navigator.userAgent)) {
+      // iOS doesn't need the iframe, in fact it sees it as a phishing attack
+      return data;
+    }
+    
+    var imgUrl = thisXBMCSocket.toImageUrl(data.addon.thumbnail);
+
+    return new Promise(function(resolve, reject) {
+      var iframe = document.createElement('iframe');
+      iframe.onload = function() {
+        document.body.removeChild(iframe);
+        resolve(data);
+      };
+      iframe.onerror = function() {
+        reject(Error("Couldn't connect to HTTP server, check HTTP port, username & password"));
+      };
+
+      iframe.src = imgUrl;
+      document.body.appendChild(iframe);
+    });
   }).then(function(data) {
     var imgUrl = thisXBMCSocket.toImageUrl(data.addon.thumbnail);
 

@@ -4,11 +4,6 @@ function toArray(arr) {
   return Array.prototype.slice.call(arr);
 }
 
-function transitionToClass(el, className) {
-  // TODO
-}
-
-
 var selectorMatches =
   Element.prototype.matches ||
   Element.prototype.webkitMatchesSelector ||
@@ -73,9 +68,59 @@ function strToEl(str) {
   return r;
 }
 
+/*function request(url, opts) {
+  // Return a new promise.
+  return new Promise(function(resolve, reject) {
+
+    opts = defaults(opts, {
+      method: "GET",
+      headers: {},
+      username: '',
+      password: ''
+    });
+
+    // Do the usual XHR stuff
+    var req = new XMLHttpRequest();
+
+    if (opts.username) {
+      req.open(opts.method, url, true, opts.username, opts.password);
+    }
+    else {
+      req.open(opts.method, url);
+    }
+
+    for (var header in opts.headers) {
+      req.setRequestHeader(header, opts.headers[header]);
+    }
+
+    req.onload = function() {
+      // This is called even on 404 etc
+      // so check the status
+      if (req.status == 200) {
+        // Resolve the promise with the response text
+        resolve(req.response);
+      }
+      else {
+        // Otherwise reject with the status text
+        // which will hopefully be a meaningful error
+        reject(Error(req.statusText));
+      }
+    };
+
+    // Handle network errors
+    req.onerror = function() {
+      reject(Error("Network Error"));
+    };
+
+    // Make the request
+    req.send();
+  });
+}*/
+
 exports.toArray = toArray;
 exports.getDelegateEl = getDelegateEl;
 exports.delegateListener = delegateListener;
 exports.leftButtonListener = leftButtonListener;
 exports.defaults = defaults;
 exports.strToEl = strToEl;
+//exports.request = request;
