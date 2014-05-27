@@ -67,7 +67,7 @@ TVPageProto._xbmcConnectionStartup = function() {
 TVPageProto._connectionFailure = function(errorMessage) {
   var thisTVPage = this;
 
-  var alertView = new AlertView("Error", errorMessage || "Cannot connect to XBMC", [{
+  var alertView = new AlertView(errorMessage || "Cannot connect to XBMC", [{
     text: "Retry",
     onclick: function() {
       modal.close();
@@ -80,6 +80,7 @@ TVPageProto._connectionFailure = function(errorMessage) {
   }]);
 
   var modal = thisTVPage._pageView.createModal(alertView, {
+    heading: "Error",
     closable: false
   });
 };

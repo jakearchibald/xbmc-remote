@@ -4,11 +4,10 @@ var toArray = require('../utils').toArray;
 
 var alertTemplate = require('./templates/alert.hbs');
 
-function Alert(title, text, buttons) {
+function Alert(text, buttons) {
   var thisAlert = this;
 
   this.el = strToEl(alertTemplate({
-    title: title,
     text: text,
     buttons: buttons
   }));
