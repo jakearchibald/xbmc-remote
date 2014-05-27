@@ -4,7 +4,7 @@ var strToEl = require('../utils').strToEl;
 
 var textInputTemplate = require('./templates/text-input.hbs');
 
-function TextInput(label, opts) {
+function TextInput(opts) {
   var thisTextInput = this;
   
   opts = defaults(opts, {
@@ -12,10 +12,9 @@ function TextInput(label, opts) {
     type: 'text',
     placeholder: '',
     required: true,
-    autofocus: true
+    autofocus: true,
+    label: ''
   });
-
-  opts.label = label;
 
   EventEmitter.call(this);
   this.el = strToEl(textInputTemplate(opts));

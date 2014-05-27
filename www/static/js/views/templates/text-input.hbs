@@ -1,10 +1,11 @@
 <section class="text-input-root">
-  <h1 class="h1">Play URL</h1>
   <form>
     <div class="menu-list">
-      <div>
+      <div class="item">
         <label class="main-action">
-          <div class="label">{{label}}</div>
+          {{#if label}}
+            <div class="label">{{label}}</div>
+          {{/if}}
           <input type="{{type}}"
                  id="text-input"
                  name="text"

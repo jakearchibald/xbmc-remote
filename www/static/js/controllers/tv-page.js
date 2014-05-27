@@ -94,10 +94,12 @@ TVPageProto._playUrl = function(url) {
 
 TVPageProto._onPlayUrlClick = function(method) {
   var thisHomePage = this;
-  var textInputView = new TextInputView("URL to play:", {
+  var textInputView = new TextInputView({
     type: 'url'
   });
-  var modal = this._pageView.createModal(textInputView);
+  var modal = this._pageView.createModal(textInputView, {
+    heading: "URL to play:"
+  });
 
   textInputView.on('formSubmit', function(url) {
     thisHomePage._playUrl(url).then(function() {
@@ -108,10 +110,12 @@ TVPageProto._onPlayUrlClick = function(method) {
 
 TVPageProto._inputRequested = function(data) {
   var thisHomePage = this;
-  var textInputView = new TextInputView(data.title, {
+  var textInputView = new TextInputView({
     value: data.value
   });
-  var modal = this._pageView.createModal(textInputView);
+  var modal = this._pageView.createModal(textInputView, {
+    heading: data.title
+  });
   var input = document.querySelector('#text-input');
   input.setSelectionRange(0, input.value.length);
 
