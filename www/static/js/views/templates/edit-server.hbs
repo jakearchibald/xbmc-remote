@@ -49,7 +49,7 @@
         <div class="row">
           <div class="button-row">
             <div class="status"></div>
-            <button class="btn btn1 has-icon">
+            <button class="btn btn1 {{#unless isEdit}}has-icon{{/unless}}">
               {{#if isEdit}}
                 Save
               {{else}}
