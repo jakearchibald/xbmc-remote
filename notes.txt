@@ -2,13 +2,7 @@ Assets needed:
   Back icon (for subpages)
   Edit & delete icons for server list
 
-IOS Issues:
-  Home screen:
-    Dialog is really big - maybe shouldn't be a dialog
-  Main remote screen:
-
 NEXT UP:
-  Edit/delete on menu
   Push state on sub pages
   Scrollability on home page
   Play URL

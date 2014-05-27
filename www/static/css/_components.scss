@@ -111,6 +111,19 @@
     }
   }
 
+// home
+  .home-root {
+    box-sizing: border-box;
+    height: 100%;
+    @include display-flex;
+    @include flex-direction(column);
+
+    & > nav {
+      @include flex(1);
+      overflow: auto;
+    }
+  }
+
 // modal
   .modal-root {
     position: fixed;
