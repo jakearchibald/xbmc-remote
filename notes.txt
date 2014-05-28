@@ -4,6 +4,12 @@ Assets needed:
 
 NEXT UP:
   Push state on sub pages
+    Adding new page adds to push state
+    Closing subpage clicks "back" the appropiate amount of times
+    Each page needs an id
+    #/id/id/id/id
+    When the above changes, handle it
+    The main page should do the handling & bubble to subpages
   Scrollability on home page
   Play URL
   Now playing
